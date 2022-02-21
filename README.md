@@ -5,14 +5,11 @@
 
 
 # Introduction
-This package offers Graphs representations of Text. It builds on SpeechGraphs, while adding extra features.   
+This package offers Graphs representations of Text. It builds on ![SpeechGraphs](https://repositorio.ufrn.br/jspui/handle/123456789/23273), while adding extra features.   
 
-## To do
-
-[ ] Tokenizers must remove punctuation.  
-[ ] Distance based on Embeddings.  
-[ ] Compare current measures with SpeechGraph.  
 ---  
+
+# Features
 
 ## Supported graphs
 
@@ -21,6 +18,8 @@ This package offers Graphs representations of Text. It builds on SpeechGraphs, w
 [X] Stem Graph: Uses lemmatized words.  
 [ ] Part of Speech Graph.  
 [X] Sentences Graph: Uses original sequence of phrases.  
+
+### Development roadmap 
 
 Preprocessing  
 [X] 1 . Tokenize text by sentences.  
@@ -35,3 +34,11 @@ Graph Measures
 [X] Centrality measures  
 [X] Density  
 [X] Strongly and Weakly connected components  
+
+## To do
+
+[ ] Tokenizers must remove punctuation.  
+[ ] Distance based on Embeddings.  
+[ ] Compare current measures with original SpeechGraph and ![Python implementation](https://github.com/facuzeta/speechgraph/).  
+
+
