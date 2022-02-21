@@ -7,6 +7,8 @@
 # Introduction
 This package offers Graphs representations of Text. It builds on ![SpeechGraphs](https://repositorio.ufrn.br/jspui/handle/123456789/23273), while adding extra features.   
 
+![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
+
 ---  
 
 # Features
