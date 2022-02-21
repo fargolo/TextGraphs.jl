@@ -21,6 +21,43 @@ This package offers Graphs representations of Text. It builds on ![SpeechGraphs]
 [ ] Part of Speech Graph.  
 [X] Sentences Graph: Uses original sequence of phrases.  
 
+
+## Usage  
+
+Install with Pkg.  
+```julia
+julia>Pkg.add("TextGraphs")
+```
+
+Generate graphs from text (`AbstractString`) with `naive_graph`,`stem_graph` (requires `raw_text` and `snowball_language` parameters),`phrases_graph`.   
+
+```julia
+julia>naive_graph("Sample for graph")
+{3, 2} directed Int64 metagraph with Float64 weights defined by :weight (default weight 1.0)
+
+julia>stem_graph(raw_text="Sample for graph",snowball_language="english")
+{3, 2} directed Int64 metagraph with Float64 weights defined by :weight (default weight 1.0)
+```
+Outputs are directed `Graphs.DiGraph`, with properties added through `MetaGraphs`. One may follow standard procedures for ploting and analysis.  
+
+```julia
+using GraphMakie , GLMakie
+
+g = naive_graph("Colorless green ideas sleep furiously")
+stem_g = stem_graph(raw_text="No meio do caminho tinha uma pedra tinha uma pedra no meio do caminho")
+
+g_labels = map(x -> get_prop(naive_g,x,:token), collect(1:nv(naive_g)))
+stem_g_labels = map(x -> get_prop(stem_g,x,:token), collect(1:nv(stem_g)))
+graphplot(naive_g,nlabels=g_labels)
+graphplot(stem_g,nlabels=stem_g_labels)
+
+spec3_layout = Spectral(dim=3)
+graphplot(naive_g,node_size=30,nlabels=g_labels,layout=spec3_layout)
+
+Graphs.eigenvector_centrality(stem_g)
+Graphs.density(stem_g)
+```
+
 ### Development roadmap 
 
 Preprocessing  
