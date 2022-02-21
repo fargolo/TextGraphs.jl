@@ -26,7 +26,7 @@ This package offers Graphs representations of Text. It builds on SpeechGraphs(ht
 
 The package ![Is not registered yet](https://github.com/JuliaRegistries/General/pull/55125). Install with Pkg.
 ```julia
-pkg>add https://github.com/c42f/SQLREPL.jl
+pkg>add https://github.com/fargolo/TextGraphs.jl
 pkg>add TextGraphs #Once it is registered
 ```
 
