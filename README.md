@@ -5,7 +5,7 @@
 
 
 # Introduction
-This package offers Graphs representations of Text. It builds on ![SpeechGraphs](https://repositorio.ufrn.br/jspui/handle/123456789/23273), while adding extra features.   
+This package offers Graphs representations of Text. It builds on SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273), while adding extra features.   
 
 ![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
 
@@ -24,9 +24,10 @@ This package offers Graphs representations of Text. It builds on ![SpeechGraphs]
 
 ## Usage  
 
-Install with Pkg.  
+The package ![Is not registered yet](https://github.com/JuliaRegistries/General/pull/55125). Install with Pkg.
 ```julia
-julia>Pkg.add("TextGraphs")
+pkg>add https://github.com/c42f/SQLREPL.jl
+pkg>add TextGraphs #Once it is registered
 ```
 
 Generate graphs from text (`AbstractString`) with `naive_graph`,`stem_graph` (requires `raw_text` and `snowball_language` parameters),`phrases_graph`.   
