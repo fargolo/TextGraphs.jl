@@ -1,12 +1,9 @@
-using Graphs , MetaGraphs , SimpleWeightedGraphs
-using Snowball , WordTokenizers
-
 # Creates graph with edges between tokens which are consecutive in the original sequence
 # If they appear twice or more, a loop is created.
 function link_consecutive(tokens_list::AbstractArray)
     unique_tokens = unique(tokens_list)
     g_lenght = length(unique_tokens) #g total size (nodes)
-    g = DiGraph(g_lenght) # initialize
+    g = Graphs.DiGraph(g_lenght) # initialize
     
     for (cur_token,next_token) in zip(tokens_list[1:end-1],tokens_list[2:end])
         ind1 , ind2 = findfirst(x->x==cur_token,unique_tokens) ,
@@ -39,7 +36,7 @@ function naive_graph(raw_text::AbstractString)
     tokenized_words = WordTokenizers.tokenize(raw_text)
     unique_tokens = unique(tokenized_words)    
     g = link_consecutive(tokenized_words)
-    mg = MetaDiGraph(g)
+    mg = MetaGraphs.MetaDiGraph(g)
     mg = add_prop_label_tokens(mg,unique_tokens)
     return mg
 end
@@ -51,7 +48,7 @@ function stem_graph(;raw_text::AbstractString, snowball_language::AbstractString
     tokenized_words_stem = map(x -> Snowball.stem(pt_stemmer,x),tokenized_words)
     unique_tokens = unique(tokenized_words_stem)
     g = link_consecutive(tokenized_words_stem)
-    mg = MetaDiGraph(g)
+    mg = MetaGraphs.MetaDiGraph(g)
     mg = add_prop_label_tokens(mg,unique_tokens)
     return mg
 end   
@@ -68,7 +65,7 @@ function phrases_graph(raw_text::AbstractString)
     # tokenized_sentences = [WordTokenizers.tokenize(x) for x in WordTokenizers.split_sentences(raw_text)]
     unique_tokens = unique(tokenized_sentences) # Identical sentences are rare
     g = link_consecutive(tokenized_sentences)
-    mg = MetaDiGraph(g)
+    mg = MetaGraphs.MetaDiGraph(g)
     mg = add_prop_label_tokens(mg,unique_tokens)
     return mg
 end
