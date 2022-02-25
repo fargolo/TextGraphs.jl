@@ -11,24 +11,22 @@ This package offers Graphs representations of Text. It builds on SpeechGraphs(ht
 
 ---  
 
-# Features
+# Features  
+
+## Usage  
+
+Install with Pkg.  
+```julia
+pkg>add TextGraphs
+```
 
 ## Supported graphs
 
 **Support for**:  
-[X] Naive Graph: Uses original sequence of words.  
-[X] Stem Graph: Uses lemmatized words.  
-[ ] Part of Speech Graph.  
-[X] Sentences Graph: Uses original sequence of phrases.  
-
-
-## Usage  
-
-The package ![Is not registered yet](https://github.com/JuliaRegistries/General/pull/55125). Install with Pkg.
-```julia
-pkg>add https://github.com/fargolo/TextGraphs.jl
-pkg>add TextGraphs #Once it is registered
-```
+- [X] Naive Graph: Uses original sequence of words.  
+- [X] Stem Graph: Uses lemmatized words.  
+- [ ] Part of Speech Graph.  
+- [X] Sentences Graph: Uses original sequence of phrases.  
 
 Generate graphs from text (`AbstractString`) with `naive_graph`,`stem_graph` (requires `raw_text` and `snowball_language` parameters),`phrases_graph`.   
 
@@ -62,23 +60,23 @@ Graphs.density(stem_g)
 ### Development roadmap 
 
 Preprocessing  
-[X] 1 . Tokenize text by sentences.  
-[X] 2 . Tokenize sentences by words.  
-[X] 3 . Stemming  
+- [X] 1 . Tokenize text by sentences.  
+- [X] 2 . Tokenize sentences by words.  
+- [X] 3 . Stemming  
 
 Text to Graph  
-[X] 1 . Generate Graphs from sequence of tokenized words  
-[X] 2 . Generate Graphs from sequence of tokenized sentences  
+- [X] 1 . Generate Graphs from sequence of tokenized words  
+- [X] 2 . Generate Graphs from sequence of tokenized sentences  
 
 Graph Measures  
-[X] Centrality measures  
-[X] Density  
-[X] Strongly and Weakly connected components  
+- [X] Centrality measures  
+- [X] Density  
+- [X] Strongly and Weakly connected components  
 
 ## To do
 
-[ ] Tokenizers must remove punctuation.  
-[ ] Distance based on Embeddings.  
-[ ] Compare current measures with original SpeechGraph and ![Python implementation](https://github.com/facuzeta/speechgraph/).  
+- [ ] Tokenizers must remove punctuation.  
+- [ ] Distance based on Embeddings.  
+- [ ] Compare current measures with original SpeechGraph and ![Python implementation](https://github.com/facuzeta/speechgraph/).  
 
 
