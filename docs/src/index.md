@@ -12,7 +12,3 @@ Documentation for [TextGraphs](https://github.com/fargolo/TextGraphs.jl).
 ```@autodocs
 Modules = [TextGraphs]
 ```
-
-```@docs
-naive_graph(raw_text::AbstractString)
-```
