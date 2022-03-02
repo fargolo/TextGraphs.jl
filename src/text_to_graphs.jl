@@ -57,7 +57,7 @@ Build graph from text (`AbstractString`) using lemmatized words.
 
 Stemming is performed with `Snowball.jl` stemmer. Default language is "portugese". 
 """
-function stem_graph(raw_text::AbstractString, snowball_language::AbstractString = "portuguese")
+function stem_graph(raw_text::AbstractString; snowball_language::AbstractString = "portuguese")
     pt_stemmer = Snowball.Stemmer(snowball_language) # Snowball.stemmer_types()
     tokenized_words = WordTokenizers.tokenize(raw_text)
     tokenized_words_stem = map(x -> Snowball.stem(pt_stemmer,x),tokenized_words)

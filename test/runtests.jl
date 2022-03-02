@@ -8,7 +8,7 @@ using Graphs
     pt_double_sentence = "Aqui, temos duas frases separadas por pontuação. Essa é a frase de número dois."
 
     naive_g = TextGraphs.naive_graph(english_sentence)
-    stem_g = TextGraphs.stem_graph(raw_text=pt_sentence,snowball_language="portuguese")
+    stem_g = TextGraphs.stem_graph(pt_sentence;snowball_language="portuguese")
     phrases_g = TextGraphs.phrases_graph(pt_double_sentence)
 
     @test (nv(naive_g),ne(naive_g)) == (5,4)
