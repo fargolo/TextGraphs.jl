@@ -90,7 +90,7 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[TextGraphs]]
 path = ".."
-uuid = "e826b61d-7672-4bd4-b0b4-73fcd02aa495"
+uuid = "1da7d4ca-ffb9-4e95-b99a-7e8e4561fc9a"
 version = "0.1.0"
 
 [[Unicode]]
