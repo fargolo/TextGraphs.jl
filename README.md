@@ -30,13 +30,13 @@ pkg>add TextGraphs
 - [ ] Part of Speech Graph.  
 - [X] Sentences Graph: Uses original sequence of phrases.  
 
-Generate graphs from text (`AbstractString`) with `naive_graph`,`stem_graph` (requires `raw_text` and `snowball_language` parameters),`phrases_graph`.   
+Generate graphs from text (`AbstractString`) with `naive_graph`,`stem_graph` (optional `snowball_language` keyword argument),`phrases_graph`.   
 
 ```julia
 julia>naive_graph("Sample for graph")
 {3, 2} directed Int64 metagraph with Float64 weights defined by :weight (default weight 1.0)
 
-julia>stem_graph(raw_text="Sample for graph",snowball_language="english")
+julia>stem_graph("Sample for graph";snowball_language="english") # Optional keyword argument
 {3, 2} directed Int64 metagraph with Float64 weights defined by :weight (default weight 1.0)
 ```
 Outputs are directed `Graphs.DiGraph`, with properties added through `MetaGraphs`. One may follow standard procedures for ploting and analysis.  
