@@ -1,13 +1,14 @@
 # TextGraphs
-
+<!---
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://fargolo.github.io/TextGraphs.jl/stable)
+-->  
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://fargolo.github.io/TextGraphs.jl/dev)
 [![Build Status](https://github.com/fargolo/TextGraphs.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/fargolo/TextGraphs.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/fargolo/TextGraphs.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/fargolo/TextGraphs.jl)
 
 
 # Introduction
-This package offers Graphs representations of Text. It builds on SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273), while adding extra features.   
+This package offers Graphs representations of Text. It builds on SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273), while adding extra features.  
 
 ![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
 
@@ -29,6 +30,7 @@ pkg>add TextGraphs
 - [X] Stem Graph: Uses lemmatized words.  
 - [ ] Part of Speech Graph.  
 - [X] Sentences Graph: Uses original sequence of phrases.  
+- [ ] Latent space embedding (LSE) graphs. 
 
 Generate graphs from text (`AbstractString`) with `naive_graph`,`stem_graph` (optional `snowball_language` keyword argument),`phrases_graph`.   
 

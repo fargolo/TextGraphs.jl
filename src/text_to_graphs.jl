@@ -9,11 +9,10 @@ function link_consecutive(tokens_list::AbstractArray)
     unique_tokens = unique(tokens_list)
     g_lenght = length(unique_tokens) #g total size (nodes)
     g = Graphs.DiGraph(g_lenght) # initialize
-    
-    for (cur_token,next_token) in zip(tokens_list[1:end-1],tokens_list[2:end])
-        ind1 , ind2 = findfirst(x->x==cur_token,unique_tokens) ,
-                        findfirst(x->x==next_token,unique_tokens)
-        add_edge!(g, ind1, ind2)
+   
+    inds = indexin(tokens_list, unique_tokens)
+        for i in 2:length(inds)
+        add_edge!(g, inds[i-1], inds[i])
     end
     return g
 end   

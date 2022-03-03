@@ -1,6 +1,6 @@
 using TextGraphs
 using Test
-using Graphs
+using Graphs , MetaGraphs
 
 @testset "TextGraphs.jl" begin
     english_sentence = "Colorless green ideas sleep furiously"
@@ -14,5 +14,11 @@ using Graphs
     @test (nv(naive_g),ne(naive_g)) == (5,4)
     @test (nv(stem_g),ne(stem_g)) == (8,9)
     @test (nv(phrases_g),ne(phrases_g)) == (2,1)
+
+    naive_g_labels = map(x -> get_prop(naive_g,x,:token), collect(1:nv(naive_g)))
+    stem_g_labels = map(x -> get_prop(stem_g,x,:token), collect(1:nv(stem_g)))
+
+    @test naive_g_labels[4:5] == ["sleep","furiously"]
+    @test (stem_g_labels[4] , stem_g_labels[5]) == ("caminh","tinh") 
 
 end
