@@ -3,3 +3,5 @@
 *.jl.mem
 /Manifest.toml
 /docs/build/
+# Ignore data from local storage
+data/*
