@@ -1,5 +1,3 @@
-from json.tool import main
-from multiprocessing.spawn import _main
 import spacy
 
 class Preproc:
