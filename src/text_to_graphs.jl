@@ -83,10 +83,34 @@ function phrases_graph(raw_text::AbstractString)
     return mg
 end
  
-# Future: Text to POS Graphs
-#function pos_graph()
-   # POS_TAGGING
-#end
+"""
+    pos_tag(my_text)
+
+Build POS Tagging from text (`AbstractString`) using R package udpipe. 
+
+Currently, supports portuguese and english corpora. 
+"""
+function pos_graph(raw_text::AbstractString)
+    
+    @rput raw_text
+    
+    udp_pos_robj = reval("""
+    require(udpipe)
+    udp_model_pt <- udpipe::udpipe_load_model(file = "corpora/portuguese-ud-2.1-20180111.udpipe")
+    udp_pt_annotate <- as.data.frame(udpipe::udpipe_annotate(udp_model_pt,raw_text))
+    """)
+    
+    udp_pos_df = rcopy(udp_pos_robj)
+
+    unique_tokens = unique(udp_pos_df.upos)
+    g = link_consecutive(udp_pos_df.upos)
+    mg = MetaGraphs.MetaDiGraph(g)
+    mg = add_prop_label_tokens(mg,unique_tokens)
+    return mg    
+
+end
+
+
 
 # Future: Edges weighted on cosien similarity
 #function add_prop_edge_distance(mg)

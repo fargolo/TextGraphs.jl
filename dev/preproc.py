@@ -1,4 +1,10 @@
+# $python3 -m spacy download pt_core_news_lg
+# #pip install spacy
+
 import spacy
+import pt_core_news_lg
+
+spacy.load("pt_core_news_lg")
 
 class Preproc:
     '''This class implements some of the preprocess functions necessary to create vertices
