@@ -28,7 +28,7 @@ pkg>add TextGraphs
 **Support for**:  
 - [X] Naive Graph: Uses original sequence of words.  
 - [X] Stem Graph: Uses lemmatized words.  
-- [ ] Lemma Graph: Uses lemmatized words.  
+- [X] Lemma Graph: Uses lemmatized words.  
 - [X] Part of Speech Graph.  
 - [X] Sentences Graph: Uses original sequence of phrases.  
 - [ ] Latent space embedding (LSE) graphs. 

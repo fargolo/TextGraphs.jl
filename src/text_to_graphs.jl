@@ -17,6 +17,7 @@ function link_consecutive(tokens_list::AbstractArray)
     return g
 end   
 
+
 """
     add_prop_label_tokens(metagraph,metagraph_unique_tokens)
 
@@ -32,8 +33,19 @@ function add_prop_label_tokens(mg::AbstractMetaGraph,unique_tokens)
 end    
 
 
+"""
+    build_labelled_graph(x::AbstractArray)
 
-# Text to naive graphs 
+This function is used internally to build graph lebelled with unique tokens.
+"""
+function build_labelled_graph(x::AbstractArray)
+    unique_tokens = unique(x)    
+    g = link_consecutive(x)
+    mg = MetaGraphs.MetaDiGraph(g)
+    mg = add_prop_label_tokens(mg,unique_tokens)
+    return mg
+end
+
 
 """
     naive_graph(raw_text::AbstractString)
@@ -42,12 +54,9 @@ Build graph from text (`AbstractString`) with unprocessed words.
 """
 function naive_graph(raw_text::AbstractString)
     tokenized_words = WordTokenizers.tokenize(raw_text)
-    unique_tokens = unique(tokenized_words)    
-    g = link_consecutive(tokenized_words)
-    mg = MetaGraphs.MetaDiGraph(g)
-    mg = add_prop_label_tokens(mg,unique_tokens)
-    return mg
+    build_labelled_graph(tokenized_words)
 end
+
 
 """
     stem_graph(my_text)
@@ -60,12 +69,9 @@ function stem_graph(raw_text::AbstractString; snowball_language::AbstractString 
     pt_stemmer = Snowball.Stemmer(snowball_language) # Snowball.stemmer_types()
     tokenized_words = WordTokenizers.tokenize(raw_text)
     tokenized_words_stem = map(x -> Snowball.stem(pt_stemmer,x),tokenized_words)
-    unique_tokens = unique(tokenized_words_stem)
-    g = link_consecutive(tokenized_words_stem)
-    mg = MetaGraphs.MetaDiGraph(g)
-    mg = add_prop_label_tokens(mg,unique_tokens)
-    return mg
+    build_labelled_graph(tokenized_words_stem)
 end   
+
 
 """
     phrases_graph(my_text)
@@ -76,15 +82,35 @@ function phrases_graph(raw_text::AbstractString)
     tokenized_sentences = [x for x in WordTokenizers.split_sentences(raw_text)]
     # Tokenize words within sentences
     # tokenized_sentences = [WordTokenizers.tokenize(x) for x in WordTokenizers.split_sentences(raw_text)]
-    unique_tokens = unique(tokenized_sentences) # Identical sentences are rare
-    g = link_consecutive(tokenized_sentences)
-    mg = MetaGraphs.MetaDiGraph(g)
-    mg = add_prop_label_tokens(mg,unique_tokens)
-    return mg
+    build_labelled_graph(tokenized_sentences)
 end
  
+
 """
-    pos_tag(my_text)
+    udp_import_annotations(raw_text)
+
+Gets anonnotated DataFrame by importing R::udpipe object created with udpipe::annonate. 
+
+This function is used internally.
+"""
+function udp_import_annotations(raw_text::AbstractString)
+    
+    @rput raw_text
+    
+    udp_ann_robj = reval("""
+    require(udpipe)
+    udp_model_pt <- udpipe::udpipe_load_model(file = "corpora/portuguese-ud-2.1-20180111.udpipe")
+    udp_pt_annotate <- as.data.frame(udpipe::udpipe_annotate(udp_model_pt,raw_text,tagger="default"))
+    """)
+    
+    udp_pos_df = rcopy(udp_ann_robj)
+
+    return udp_pos_df
+end 
+
+
+"""
+    pos_graph(my_text)
 
 Build POS Tagging from text (`AbstractString`) using R package udpipe. 
 
@@ -92,24 +118,26 @@ Currently, supports portuguese and english corpora.
 """
 function pos_graph(raw_text::AbstractString)
     
-    @rput raw_text
-    
-    udp_pos_robj = reval("""
-    require(udpipe)
-    udp_model_pt <- udpipe::udpipe_load_model(file = "corpora/portuguese-ud-2.1-20180111.udpipe")
-    udp_pt_annotate <- as.data.frame(udpipe::udpipe_annotate(udp_model_pt,raw_text))
-    """)
-    
-    udp_pos_df = rcopy(udp_pos_robj)
-
-    unique_tokens = unique(udp_pos_df.upos)
-    g = link_consecutive(udp_pos_df.upos)
-    mg = MetaGraphs.MetaDiGraph(g)
-    mg = add_prop_label_tokens(mg,unique_tokens)
-    return mg    
+    udp_pos_df = udp_import_annotations(raw_text)
+        build_labelled_graph(udp_pos_df.upos)
 
 end
 
+
+"""
+    lemma_graph(my_text)
+
+Build lemmatized graph from text (`AbstractString`) using R package udpipe. 
+
+Currently, supports portuguese and english corpora. 
+"""
+function lemma_graph(raw_text::AbstractString)
+    
+    udp_pos_df = udp_import_annotations(raw_text)
+
+    build_labelled_graph(udp_pos_df.lemma)
+
+end
 
 
 # Future: Edges weighted on cosien similarity
