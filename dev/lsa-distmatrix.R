@@ -1,5 +1,6 @@
 
 # LSA ---------------------------------------------------------------------
+library(magrittr)
 # local_tokens <- ...
 d_dims <- 15 # SVD dimensions
 
@@ -20,8 +21,10 @@ tdm_RastrOS <- lsa_RastrOS_base %>%
   tidytext::cast_tdm(Word_Cleaned, Doc_ID, idf) %>% 
   as.matrix()
 
-lsa_RastrOS <- lsa::lsa(tdm_RastrOS, dims = d_dims)
+lsa_RastrOS <- lsa::lsa(tdm_RastrOS, dims = 10)
 lsa_RastrOS_tm <- lsa::as.textmatrix(lsa_RastrOS)
 
 vector_list <- lsa_RastrOS$tk[local_lokens,] 
 lsa::cosine(lsa_RastrOS$tk[local_tokens] %>% t)
+write.csv(lsa_RastrOS$tk,"Data/RastrOS_LSA_SVD_10.csv")
+write.csv(tdm_RastrOS,"Data/RastrOS_term_doc.csv",row.names=T)

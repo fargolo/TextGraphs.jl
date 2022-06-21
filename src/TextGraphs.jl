@@ -6,11 +6,13 @@ using RCall
 
 export 
 	naive_graph,
-	stem_graph,
 	phrases_graph,
-	pos_graph,
-	lemma_graph
+	stem_graph,
+	lemma_graph,
+	pos_graph
 
-include("text_to_graphs.jl")
+include("basic_tools.jl")
+include("raw_graphs.jl")
+include("nlp_graphs_stem_pos_lemma.jl")
 
 end
