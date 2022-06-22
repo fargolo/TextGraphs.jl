@@ -11,6 +11,7 @@
 `TextGraphs.jl` offers Graphs representations of Text, along with natural language proccessing (NLP) functionalities.  
 
 It is a Julia package inspired by SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273). 
+There's a ![Python implementation](https://github.com/facuzeta/speechgraph/) by ![github/facuzeta](https://github.com/facuzeta/).  
 
 
 ![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
@@ -80,27 +81,9 @@ spec3_layout = Spectral(dim=3)
 graphplot(naive_g,node_size=30,nlabels=g_labels,layout=spec3_layout)
 ```
 
-### Development roadmap 
-
-Preprocessing  
-- [X] 1 . Tokenize text by sentences.  
-- [X] 2 . Tokenize sentences by words.  
-- [X] 3 . Stemming  
-- [X] 4 . POS
-- [X] 5 . Lemmas
-
-Text to Graph  
-- [X] 1 . Generate Graphs from sequence of tokenized words  
-- [X] 2 . Generate Graphs from sequence of tokenized sentences  
-
-Graph Measures  
-- [X] Centrality measures  
-- [X] Density  
-- [X] Strongly and Weakly connected components  
-
 ## To do
 
-- [ ] Distance based on Embeddings.  
-- [ ] Compare current measures with original SpeechGraph and ![Python implementation](https://github.com/facuzeta/speechgraph/).  
-
-
+- [ ] Graphs from LSA embeddings and metric from diffusion models.    
+- [ ] Write a separate package to download and load copora (Corpora.jl) for internal usage.  
+- [ ] Write a separate package with wrapper for NLP features (UDPipe.jl ?) in R and Python. See ![spacy](https://github.com/joshday/Spacy.jl).  
+- [ ] Tag within NLP packages in juliapackages.com.  
