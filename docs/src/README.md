@@ -93,9 +93,17 @@ Text to Graph
 
 Graph Measures  
 - [X] Centrality measures  
+
+## Development roadmap
+
+- [ ] Graphs from LSA embeddings and metric from diffusion models.    
+- [ ] Write a separate package to download and load copora (Corpora.jl) for internal usage.  
+- [ ] Write a separate package with wrapper for NLP features (UDPipe.jl ?) in R and Python. See ![spacy](https://github.com/joshday/Spacy.jl).  
+- [ ] Tag within NLP packages in juliapackages.com.  
+
+
 ```@autodocs
 Modules = [TextGraphs]
 ```
-- [ ] Compare current measures with original SpeechGraph and ![Python implementation](https://github.com/facuzeta/speechgraph/).  
 
 

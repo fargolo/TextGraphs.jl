@@ -46,7 +46,8 @@ Currently, supports portuguese and english corpora.
 function pos_graph(raw_text::AbstractString)
     
     udp_pos_df = udp_import_annotations(raw_text)
-        build_labelled_graph(udp_pos_df.upos)
+    
+    build_labelled_graph(udp_pos_df.upos)
 
 end
 

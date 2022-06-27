@@ -3,8 +3,9 @@ using GraphMakie , GLMakie
 # g = naive_graph("Colorless green ideas sleep furiously")
 # stem_g = stem_graph("No meio do caminho tinha uma pedra tinha uma pedra no meio do caminho")
 
-function print_tokens(graph)
-g_labels = map(x -> get_prop(graph,x,:token), collect(1:nv(graph)))
+function print_tokens(graph::MetaDiGraph)
+    g_labels = map(x -> get_prop(graph,x,:token), collect(1:nv(graph)))
+    graphplot(graph,nlabels=g_labels)
 end    
 
 g_labels = map(x -> get_prop(naive_g,x,:token), collect(1:nv(naive_g)))
