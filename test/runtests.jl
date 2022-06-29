@@ -1,6 +1,6 @@
 using TextGraphs
 using Test
-using Graphs , MetaGraphs
+using Graphs , MetaGraphs 
 
 @testset "TextGraphs.jl" begin
     english_sentence = "Colorless green ideas sleep furiously"
@@ -20,5 +20,13 @@ using Graphs , MetaGraphs
 
     @test naive_g_labels[4:5] == ["sleep","furiously"]
     @test (stem_g_labels[4] , stem_g_labels[5]) == ("caminh","tinh") 
+
+    stem_props = TextGraphs.graph_props(stem_g)
+    @test map(x->round(x;digits=5),
+            collect(values(stem_props))) == [0.27158, 7.0, 2.0, 0.16071, 0, 0.33929,0.33713]
+    
+    stem_erdos_props = TextGraphs.rand_erdos_ratio_props(stem_g;rnd_seed=123)
+    @test map(x->round(x;digits=5),
+        collect(values(stem_erdos_props))) == [1.05639,0.5,0.57515,1.67647]
 
 end

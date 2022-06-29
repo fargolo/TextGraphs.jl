@@ -1,12 +1,12 @@
 
 """
-node_props(g::MetaDiGraph)
+node_props(g::Union{MetaDiGraph,SimpleGraph})
 
 Calculate betweeness, closeness and eigenvector centralities for each node. 
 
 This function returns a Dict with vectors of values for each centrality method.  
 """
-function node_props(g::MetaDiGraph)
+function node_props(g::Union{MetaDiGraph,SimpleGraph})
     node_dict = Dict(
     "betweenness_centrality" => Graphs.betweenness_centrality(g),
     "closeness_centrality" => Graphs.closeness_centrality(g),
@@ -16,13 +16,13 @@ function node_props(g::MetaDiGraph)
 end
 
 """
-mean_graph_centrs(g::MetaDiGraph)
+mean_graph_centrs(g::Union{MetaDiGraph,SimpleGraph})
 
 Calculate mean values for centrality (betweeness, closeness and eigenvector methods). 
 
 This function returns a Dict with numeric values for each centrality method.  
 """
-function mean_graph_centrs(g::MetaDiGraph)
+function mean_graph_centrs(g::Union{MetaDiGraph,SimpleGraph})
     node_dict = node_props(g)
     mean_graph_centrs = Dict(
         "mean_between_centr" => Statistics.mean(node_dict["betweenness_centrality"]),
@@ -63,9 +63,9 @@ Calculate ratios between a given MetaDiGraph and a corresponding random Erd≈ës‚Ä
 This function returns a Dict with numeric values for density and 
 mean centralities (betweeness, closeness and eigenvector methods) 
 """
-function rand_erdos_ratio_props(g::MetaDiGraph)
+function rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=123)
     
-    random_erdos_g = Graphs.erdos_renyi(nv(g),ne(g))
+    random_erdos_g = Graphs.erdos_renyi(nv(g),ne(g),seed=rnd_seed)
     #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
     rand_props = node_props(random_erdos_g)
     g_props = node_props(g) 
