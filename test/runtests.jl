@@ -22,11 +22,11 @@ using Graphs , MetaGraphs
     @test (stem_g_labels[4] , stem_g_labels[5]) == ("caminh","tinh") 
 
     stem_props = TextGraphs.graph_props(stem_g)
-    @test map(x->round(x;digits=5),
-            collect(values(stem_props))) == [0.27158, 7.0, 2.0, 0.16071, 0, 0.33929,0.33713]
+    @test isequal(map(x->round(x;digits=5),
+            collect(values(stem_props))), [0.27158, 7.0, 2.0, 0.16071, 0, 0.33929,0.33713])
     
     stem_erdos_props = TextGraphs.rand_erdos_ratio_props(stem_g;rnd_seed=123)
-    @test map(x->round(x;digits=5),
-        collect(values(stem_erdos_props))) == [1.05639,0.5,0.57515,1.67647]
+    @test isequal(map(x->round(x;digits=5),
+        collect(values(stem_erdos_props))),[0.73644,0.42857,2.5,1.0,NaN,0.07018,0.62623])
 
 end
