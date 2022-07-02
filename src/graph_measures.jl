@@ -6,7 +6,7 @@ Calculate betweeness, closeness and eigenvector centralities for each node.
 
 This function returns a Dict with vectors of values for each centrality method.  
 """
-function node_props(g::Union{MetaDiGraph,SimpleGraph})
+function node_props(g::Union{MetaDiGraph,SimpleDiGraph})
     node_dict = Dict(
     "betweenness_centrality" => Graphs.betweenness_centrality(g),
     "closeness_centrality" => Graphs.closeness_centrality(g),
@@ -22,7 +22,7 @@ Calculate mean values for centrality (betweeness, closeness and eigenvector meth
 
 This function returns a Dict with numeric values for each centrality method.  
 """
-function mean_graph_centrs(g::Union{MetaDiGraph,SimpleGraph})
+function mean_graph_centrs(g::Union{MetaDiGraph,SimpleDiGraph})
     node_dict = node_props(g)
     mean_graph_centrs = Dict(
         "mean_between_centr" => Statistics.mean(node_dict["betweenness_centrality"]),
@@ -41,7 +41,7 @@ This function returns a Dict with numeric values for
 density, # of self loops, # of SCCs, size of largest SCC, 
 and mean centrality (betweeness, closeness and eigenvector methods) 
 """
-function graph_props(g::MetaDiGraph)
+function graph_props(g::Union{MetaDiGraph,SimpleDiGraph})
     SCC = Graphs.strongly_connected_components(g)
     centrs_dict = mean_graph_centrs(g)
     graph_dict = Dict(
@@ -65,15 +65,15 @@ mean centralities (betweeness, closeness and eigenvector methods)
 """
 function rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=123)
     
-    random_erdos_g = Graphs.erdos_renyi(nv(g),ne(g),seed=rnd_seed)
+    random_erdos_g = Graphs.erdos_renyi(nv(g),ne(g),seed=rnd_seed,is_directed=true)
     #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
-    rand_props = node_props(random_erdos_g)
-    g_props = node_props(g) 
-    g_centrs , rand_centrs = map(mean_graph_centrs,(g,random_erdos_g))
-    ratio_centrs = values(g_centrs) ./ values(rand_centrs)
-    ratio_density = Graphs.density(g) / Graphs.density(random_erdos_g)
+    rand_props = graph_props(random_erdos_g)
+    g_props = graph_props(g) 
     
-    ratio_dict = Dict(zip(["closeness","betweeness","eigenvector","density"],
-                                [ratio_centrs;ratio_density]))
+    g_keys = keys(g_props)
+    ratio_values = values(rand_props) ./ values(g_props)
+
+    ratio_dict = Dict(zip(g_keys,ratio_values))
     return ratio_dict
 end
+
