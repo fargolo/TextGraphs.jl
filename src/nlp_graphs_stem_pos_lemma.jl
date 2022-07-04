@@ -21,19 +21,22 @@ Get anonnotated DataFrame by importing R::udpipe object created with udpipe::ann
 This function is used internally.
 """
 function udp_import_annotations(raw_text::AbstractString)
-    
-    @rput raw_text
+ 
+    cur_path = @__DIR__
+    @rput raw_text cur_path
     
     udp_ann_robj = reval("""
     require(udpipe)
-    udp_model_pt <- udpipe::udpipe_load_model(file = "corpora/udpipe/portuguese-ud-2.1-20180111.udpipe")
+    file_path <-"/../corpora/udpipe/portuguese-ud-2.1-20180111.udpipe"
+    udp_model_pt <- udpipe::udpipe_load_model(file = paste(cur_path,file_path,sep=""))
     udp_pt_annotate <- as.data.frame(udpipe::udpipe_annotate(udp_model_pt,raw_text,tagger="default"))
     """)
     
     udp_pos_df = rcopy(udp_ann_robj)
 
     return udp_pos_df
-end 
+
+end    
 
 
 """
