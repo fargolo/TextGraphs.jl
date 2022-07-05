@@ -16,7 +16,7 @@ using Graphs , MetaGraphs
     @test (nv(phrases_g),ne(phrases_g)) == (2,1)
 
     naive_g_labels = get_graph_labels(naive_g)
-    stem_g_labels = get_graph_labels(stem_g_labels)
+    stem_g_labels = get_graph_labels(stem_g)
 
     @test naive_g_labels[4:5] == ["sleep","furiously"]
     @test stem_g_labels[4:5] == ["caminh","tinh"] 
