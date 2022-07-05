@@ -15,11 +15,11 @@ using Graphs , MetaGraphs
     @test (nv(stem_g),ne(stem_g)) == (8,9)
     @test (nv(phrases_g),ne(phrases_g)) == (2,1)
 
-    naive_g_labels = map(x -> get_prop(naive_g,x,:token), collect(1:nv(naive_g)))
-    stem_g_labels = map(x -> get_prop(stem_g,x,:token), collect(1:nv(stem_g)))
+    naive_g_labels = get_graph_labels(naive_g)
+    stem_g_labels = get_graph_labels(stem_g_labels)
 
     @test naive_g_labels[4:5] == ["sleep","furiously"]
-    @test (stem_g_labels[4] , stem_g_labels[5]) == ("caminh","tinh") 
+    @test stem_g_labels[4:5] == ["caminh","tinh"] 
 
     stem_props = TextGraphs.graph_props(stem_g)
     @test isequal(map(x->round(x;digits=5),
@@ -28,5 +28,13 @@ using Graphs , MetaGraphs
     stem_erdos_props = TextGraphs.rand_erdos_ratio_props(stem_g;rnd_seed=123)
     @test isequal(map(x->round(x;digits=5),
         collect(values(stem_erdos_props))),[0.73644,0.42857,2.5,1.0,NaN,0.07018,0.62623])
+    
+    pos_g = TextGraphs.pos_graph(pt_sentence;text_language="portuguese")
+    pos_g_labels = get_graph_labels(pos_g)
+    @test pos_g_labels[2:5] == ["ADP","DET","NOUN","VERB"] 
+
+    lemma_g = TextGraphs.lemma_graph(pt_sentence;text_language="portuguese")
+    lemma_g_labels = get_graph_labels(lemma_g)
+    @test lemma_g_labels[2:9] == ["em","o","meio","de","caminho","ter","um","pedra"] 
 
 end

@@ -45,3 +45,11 @@ function build_labelled_graph(x::AbstractArray)
     mg = add_prop_label_tokens(mg,unique_tokens)
     return mg
 end
+
+
+"""
+    get_graph_labels(g::MetaDiGraph)
+
+Return graph labels.
+"""
+get_graph_labels(g::MetaDiGraph) = map(x -> get_prop(g,x,:token), collect(1:nv(g)))

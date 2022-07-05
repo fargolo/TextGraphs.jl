@@ -8,7 +8,7 @@ using Statistics
 export 
 	naive_graph, phrases_graph,
 	stem_graph, lemma_graph, pos_graph,
-	node_props, graph_props, rand_erdos_ratio_props
+	node_props, graph_props, rand_erdos_ratio_props, get_graph_labels
 
 include("basic_tools.jl")
 include("raw_graphs.jl")

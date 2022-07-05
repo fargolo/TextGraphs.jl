@@ -20,16 +20,18 @@ Get anonnotated DataFrame by importing R::udpipe object created with udpipe::ann
 
 This function is used internally.
 """
-function udp_import_annotations(raw_text::AbstractString)
+function udp_import_annotations(raw_text::AbstractString;udpipe_lang::AbstractString = "english")
  
+    en_path = "/../corpora/udpipe/english-ud-2.1-20180111.udpipe"
+    pt_path = "/../corpora/udpipe/portuguese-ud-2.1-20180111.udpipe"
+    udpipe_path = ifelse(udpipe_lang=="english",en_path,pt_path)
     cur_path = @__DIR__
-    @rput raw_text cur_path
+    @rput raw_text cur_path udpipe_path
     
     udp_ann_robj = reval("""
     require(udpipe)
-    file_path <-"/../corpora/udpipe/portuguese-ud-2.1-20180111.udpipe"
-    udp_model_pt <- udpipe::udpipe_load_model(file = paste(cur_path,file_path,sep=""))
-    udp_pt_annotate <- as.data.frame(udpipe::udpipe_annotate(udp_model_pt,raw_text,tagger="default"))
+    udp_model <- udpipe::udpipe_load_model(file = paste(cur_path,udpipe_path,sep=""))
+    udp_pt_annotate <- as.data.frame(udpipe::udpipe_annotate(udp_model,raw_text,tagger="default"))
     """)
     
     udp_pos_df = rcopy(udp_ann_robj)
@@ -46,9 +48,9 @@ Build POS Tagging from text (`AbstractString`) using R package udpipe.
 
 Currently, supports portuguese and english corpora. 
 """
-function pos_graph(raw_text::AbstractString)
+function pos_graph(raw_text::AbstractString;text_language::AbstractString="english")
     
-    udp_pos_df = udp_import_annotations(raw_text)
+    udp_pos_df = udp_import_annotations(raw_text;udpipe_lang=text_language)
     
     build_labelled_graph(udp_pos_df.upos)
 
@@ -62,9 +64,9 @@ Build lemmatized graph from text (`AbstractString`) using R package udpipe.
 
 Currently, supports portuguese and english corpora. 
 """
-function lemma_graph(raw_text::AbstractString)
+function lemma_graph(raw_text::AbstractString;text_language="english")
     
-    udp_pos_df = udp_import_annotations(raw_text)
+    udp_pos_df = udp_import_annotations(raw_text;udpipe_lang=text_language)
 
     build_labelled_graph(udp_pos_df.lemma)
 
