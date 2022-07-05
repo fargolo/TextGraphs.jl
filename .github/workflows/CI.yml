@@ -25,6 +25,9 @@ jobs:
         arch:
           - x64
     steps:
+      # Test to install R and udpipe dependecy
+      - run: sudo apt-get install -y r-base
+      - run: Rscript -e 'install.packages("udpipe")'
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@v1
         with:
