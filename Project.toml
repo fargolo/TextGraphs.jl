@@ -4,6 +4,7 @@ authors = ["fargolo <felipe.c.argolo@protonmail.com> and contributors"]
 version = "0.1.4"
 
 [deps]
+Bootstrap = "e28b5b4c-05e8-5b66-bc03-6f0c0a0a06e0"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"

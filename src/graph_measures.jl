@@ -77,3 +77,42 @@ function rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=123)
     return ratio_dict
 end
 
+
+"""
+erdos_graph_short(g::MetaDiGraph)
+
+Generate random Erdős–Rényi graph from MetaDiGraph.
+
+Short version of erdos_renyi function that takes a MetaDiGraph instead of numebr of vertices and nodes.
+"""
+erdos_graph_short(g::MetaDiGraph) = Graphs.erdos_renyi(nv(g),ne(g),is_directed=true)
+
+
+"""
+rand_erdos_ratio_props(g::MetaDiGraph)
+
+Calculate ratios between a given MetaDiGraph and corresponding random Erdős–Rényi graphs via bootstrapping.
+
+This function returns a Dict with numeric values for density, connected components and 
+mean centralities (betweeness, closeness and eigenvector methods). Currently
+returning error for some samples.
+"""
+function rand_erdos_ratio_sampled(g::MetaDiGraph;n_samples=100)
+    
+
+    random_graphs = [erdos_graph_short(g) for _ in 1:n_samples]
+    rand_graph_properties = map(graph_props,random_graphs)
+    rand_g_props_df = vcat(DataFrame.(rand_graph_properties)...)
+    
+    rand_bias = mapcols(x -> bootstrap(mean, x, BasicSampling(100)) |> bias ,rand_g_props_df)
+
+    #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
+    rand_props = values(rand_bias[1,:])
+    g_props = graph_props(g) 
+    
+    g_keys = keys(g_props)
+    ratio_values = rand_props ./ values(g_props)
+
+    ratio_dict = Dict(zip(g_keys,ratio_values))
+    return ratio_dict
+end
