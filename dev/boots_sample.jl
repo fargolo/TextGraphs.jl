@@ -1,9 +1,7 @@
-using Bootstrap
 using GraphMakie , GLMakie
-using DataFrames
 
-english_sentence = "Colorless green ideas sleep furiously"
-naive_g = naive_graph(english_sentence)
+pt_sentence = "No meio do caminho tinha uma pedra tinha uma pedra no meio do caminho"
+naive_g = naive_graph(pt_sentence)
 g_labels = map(x -> get_prop(naive_g,x,:token), collect(1:nv(naive_g)))
 
 
@@ -16,7 +14,7 @@ random_graphs = [erdos_graph(naive_g) for _ in 1:100]
 b = map(graph_props,random_graphs)
 c = vcat(DataFrame.(b)...)
 
-bs1 = mapcols(x -> bootstrap(mean, x, BasicSampling(100)) |> bias ,c)
+bs1 = mapcols(x -> bootstrap(mean, x, BasicSampling(100)) |> original |> x-> x[1],c)
 
 values(bs1[1,:]) ./ values(graph_props(naive_g))
 

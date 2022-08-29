@@ -4,6 +4,7 @@ using Graphs , MetaGraphs
 using Snowball , WordTokenizers
 using RCall #External call for udpipe package
 using Statistics, Bootstrap
+using DataFrames
 
 export 
 	naive_graph, phrases_graph,
