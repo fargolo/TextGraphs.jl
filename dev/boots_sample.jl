@@ -14,7 +14,8 @@ random_graphs = [erdos_graph(naive_g) for _ in 1:100]
 b = map(graph_props,random_graphs)
 c = vcat(DataFrame.(b)...)
 
-bs1 = mapcols(x -> bootstrap(mean, x, BasicSampling(100)) |> original |> x-> x[1],c)
+
+bs1 = mapcols(x -> bootstrap(mean, x, BasicSampling(100)) |> x -> original(x,1),c)
 
 values(bs1[1,:]) ./ values(graph_props(naive_g))
 

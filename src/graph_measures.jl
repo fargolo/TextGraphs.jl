@@ -104,7 +104,7 @@ function rand_erdos_ratio_sampled(g::MetaDiGraph;n_samples=1000,n_boot=1000)
     rand_graph_properties = map(graph_props,random_graphs)
     rand_g_props_df = vcat(DataFrame.(rand_graph_properties)...)
     
-    rand_bias = mapcols(x -> bootstrap(mean, x, BasicSampling(n_boot)) |> original |> x-> x[1], rand_g_props_df)
+    rand_bias = mapcols(x -> bootstrap(mean, x, BasicSampling(n_boot)) |> x -> original(x,1), rand_g_props_df)
 
     #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
     rand_props = values(rand_bias[1,:])
