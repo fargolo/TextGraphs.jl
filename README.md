@@ -99,5 +99,5 @@ graphplot(naive_g,node_size=30,nlabels=g_labels,layout=spec3_layout)
 - [ ] Graphs from LSA embeddings and metric from diffusion models.    
 - [ ] Write a separate package to download and load copora (Corpora.jl) for internal usage.  
 - [ ] Write a separate package with wrapper for NLP features (UDPipe.jl ?) in R and Python. See ![spacy](https://github.com/joshday/Spacy.jl).  
-- [ ] Tag within NLP packages in juliapackages.com.  
-- [ ] Debug boootstrapping of Erdõs-Rényi ratios.  
+- [ ] Debug boootstrapping of Erdõs-Rényi ratios. Let user choose an alternative statistic.   
+- [ ] Add degree centrality to props.  

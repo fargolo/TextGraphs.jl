@@ -89,7 +89,7 @@ erdos_graph_short(g::MetaDiGraph) = Graphs.erdos_renyi(nv(g),ne(g),is_directed=t
 
 
 """
-rand_erdos_ratio_props(g::MetaDiGraph)
+rand_erdos_ratio_props(g::MetaDiGraph;n_samples=1000,n_boot=1000)
 
 Calculate ratios between a given MetaDiGraph and corresponding random Erdős–Rényi graphs via bootstrapping.
 
