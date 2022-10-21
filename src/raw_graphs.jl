@@ -4,7 +4,7 @@
 Build graph from text (`AbstractString`) with unprocessed words.
 """
 function naive_graph(raw_text::AbstractString)
-    tokenized_words = WordTokenizers.tokenize.(WordTokenizers_split_sentences(sentences))...)
+    tokenized_words = WordTokenizers.tokenize.(WordTokenizers.split_sentences(sentences))...)
     build_labelled_graph(tokenized_words)
 end
 
