@@ -1,7 +1,6 @@
-#install.packages("janitor")
-#df <- janitor::remove_empty(dist_matrix, 
-                            which = "cols")
-
+# https://neo4j.com/docs/graph-data-science/current/algorithms/
+# http://users.dimi.uniud.it/~massimo.franceschet/teaching/datascience/network/heterogeneity.html
+# To do: remover stopwords 
 #dist_matrix[colSums(!is.na(dist_matrix)) > 0]
 ## Load package
 library(igraph)
@@ -19,7 +18,13 @@ plot(g3,edge.label=round(E(g3)$weight,3),
      edge.width=E(g3)$width)
 distances(g3)
 eigen_centrality(g3)
+# raw harmonic centrality(node) = sum(1 / distance from node to every other node excluding itself)
 harmonic_centrality(g3)
+igraph::closeness(g3)
 shortest_paths(g3,from = 1,to=30)
 
 igraph::page_rank(g3)
+
+#install.packages("janitor")
+#df <- janitor::remove_empty(dist_matrix, 
+#                            which = "cols")
