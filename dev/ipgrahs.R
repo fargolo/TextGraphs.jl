@@ -21,7 +21,6 @@ eigen_centrality(g3)
 # raw harmonic centrality(node) = sum(1 / distance from node to every other node excluding itself)
 harmonic_centrality(g3)
 igraph::closeness(g3)
-shortest_paths(g3,from = 1,to=30)
 
 igraph::page_rank(g3)
 

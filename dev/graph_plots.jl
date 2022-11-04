@@ -11,7 +11,10 @@ end
 
 g_labels = map(x -> get_prop(naive_g,x,:token), collect(1:nv(naive_g)))
 
-graphplot(naive_g,nlabels=g_labels, edgelinewidth=ew,edge_width=0.5)
+naive_g = naive_graph(sentences)
+g_labels = TextGraphs.get_graph_labels(naive_g)
+
+graphplot(naive_g,nlabels=g_labels, edge_width=0.5)
 graphplot(stem_g,nlabels=stem_g_labels,edgelinewidth=ew)
 
 layout = Spectral(dim=3)

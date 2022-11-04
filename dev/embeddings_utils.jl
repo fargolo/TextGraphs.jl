@@ -54,6 +54,14 @@ function latent_space_graph(raw_text,embtable,graph_function=naive_graph,complet
     word_dists_full_df = DataFrame(hcat(labels_full,word_dists_full),:auto)
     rename!(word_dists_full_df, ["HEADER",labels_full...])
     rename!(word_dists_df, ["HEADER",labels...])
+    ## weightwed_graph = MetaGraph(complete_graph(nv(unweighted_graph)),NaN)
+    ## for i=1:nv(weightwed_graph)
+    ##     set_prop!(weightwed_graph,i,:token, get_prop(unweighted_graph,i,:token))
+    ##     for j=1:nv(weightwed_graph)
+    ##         set_prop!(weightwed_graph, Edge(i, j), :weight, word_dists[i,j])
+    ##     end
+    ## end   
+    ## 
     ifelse(complete_embed==true,word_dists_full_df,word_dists_df)
 
 end

@@ -1,30 +1,39 @@
-"""
-     f(x::MetaGraph;embeddings=FastText_Text{:pt})
-     #
-# Return an identical graph, with vector embeddings from Embeddings.jl as properties.  
 
+# Further analysis
+## To do: integrate the following procedures with current functions in embeddings_utils.jl
 
-## To do ()
-# Trajectory in which states are defined by the proximity in the embeddings (clustering algorithms on the distance matrix).
-# Compare observed trajectory with random diffusion. Use complete graphs and minimum spanning tree.
-"""
-
-# using Embeddings , MetaGraphs , Distances, Clustering
-# function lse_graph(mg::MetaGraph;EmbeddingSystem=FastText_Text{:pt})
-
-
-# Using the Embeddings.jl function:
-## Currently crashing on my PC
-
-const embtable = load_embeddings(FastText_Text{:pt}; max_vocab_size=20000) 
-
-const get_word_index = Dict(word=>ii for (ii,word) in enumerate(embtable.vocab))
-
-function get_embedding(word)
-    ind = get_word_index[word]
-    emb = embtable.embeddings[:,ind]
-    return emb
-end
+#Adds distances from word_dists to sample_graph
+## mg = MetaGraph(complete_graph(nv(sample_graph)),NaN)
+## for i=1:nv(mg)
+##     set_prop!(mg,i,:token, get_prop(sample_graph,i,:token))
+##     for j=1:nv(mg)
+##         set_prop!(mg, Edge(i, j), :weight, word_dists[i,j])
+##     end
+## end   
+## naive_g = mg
+##  
+## # julia> using Arpack
+## # Centrality for each entry based on 1st eigenvector weights
+## eigenvect_centr = abs.(vec(eigs(word_dists_full, which=:LM, nev=1)[2]))
+## # All eigenvalues
+## eigenvals_all = (vec(eigs(word_dists_full, which=:LM, nev=size(word_dists_full)[1])[1]))
+##  
+## # Mean, median, min, max
+## # Median are important: https://www.mathsci.udel.edu/content-sub-site/Documents/AEGT%20Presentations/1Ye.pdf
+## [f(eigenvals_all) for f in [mean, median, minimum, maximum]]
+## [f(eigenvect_centr) for f in [mean, median, minimum, maximum]]
+##  
+## # Normalized mean, med., min. max. 
+## [f(eigenvals_all) for f in [mean, median, minimum, maximum]] ./ sum(eigenvals_all)
+## #[f(eigenvect_centr) for f in [mean, median, minimum, maximum]] ./ sum(eigenvect_centr)
+##  
+## # Chromatic number - https://web.cs.elte.hu/~lovasz/eigenvals-x.pdf
+## minimum(eigenvals_all)/maximum(eigenvals_all)
+## #minimum(eigenvect_centr)/maximum(eigenvect_centr)
+##  
+## plot(eigenvals_all)
+## histogram(eigenvect_centr)
+## Plots.density(eigenvect_centr) 
 
 # By-passing Embeddings.jl package. 
 ## Download PT embeddings from  
@@ -73,4 +82,6 @@ end
 ##   clust_id = assignments(clustered_embeddings)[ind]
 ##   return cluster_id
 ## end
+
+
 
