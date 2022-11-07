@@ -1,3 +1,21 @@
+"""
+bypass_eigenvector_centrality(g::Union{MetaDiGraph,SimpleGraph})
+
+Calculate eigenvector centrality for each node in g. 
+
+This function returns an Array with either the eigenvector centrality values or missing.
+It is needed because LinAlg.jl.eigs seems to bear erratic behavior, somethings returning vector bound error.  
+"""
+function bypass_eigenvector_centrality(g::Union{MetaDiGraph,SimpleDiGraph})
+    try 
+        eig_centr = Graphs.eigenvector_centrality(g)
+        return eig_centr
+    catch e
+        println("Eigenvector vector bounds error")
+        eig_centr = Array{Missing}(missing, nv(g), 1)
+        return eig_centr
+    end    
+end
 
 """
 node_props(g::Union{MetaDiGraph,SimpleGraph})
@@ -10,7 +28,7 @@ function node_props(g::Union{MetaDiGraph,SimpleDiGraph})
     node_dict = Dict(
     "betweenness_centrality" => Graphs.betweenness_centrality(g),
     "closeness_centrality" => Graphs.closeness_centrality(g),
-    "eigenvector_centrality" => Graphs.eigenvector_centrality(g),
+    "eigenvector_centrality" => bypass_eigenvector_centrality(g),
     )
     return node_dict
 end
@@ -48,7 +66,8 @@ function graph_props(g::Union{MetaDiGraph,SimpleDiGraph})
     "density" => Graphs.density(g),
     "num_self_loops" => Graphs.num_self_loops(g),
     "num_strong_connect_comp" => length(SCC),
-    "size_largest_scc" => maximum(map(length,SCC))
+    "size_largest_scc" => maximum(map(length,SCC)),
+    "graph_size" => nv(g)
     )
     
     out_dict = merge(centrs_dict,graph_dict)
