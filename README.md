@@ -11,7 +11,7 @@
 `TextGraphs.jl` offers Graphs representations of Text, along with natural language proccessing (NLP) functionalities.  
 
 It is inspired by SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273). Julia uses multiple dispatching, focusing on modular functions and high-performance computing.  
-There's an object-oriented ![Python implementation](https://github.com/facuzeta/speechgraph/) by ![github/facuzeta](https://github.com/facuzeta/).  
+There's an object-oriented [Python implementation](https://github.com/facuzeta/speechgraph/) by [github/facuzeta](https://github.com/facuzeta/).  
 
 
 ![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
@@ -20,7 +20,7 @@ There's an object-oriented ![Python implementation](https://github.com/facuzeta/
 
 # Quick introduction  
 
-Check the ![documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for further information.   
+Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for further information.   
 
 ## Install  
 
