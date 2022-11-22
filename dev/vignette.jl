@@ -1,13 +1,13 @@
-    using TextGraphs
+using TextGraphs
 using DataFrames, CSV
 using StatsPlots
 using Statistics , HypothesisTests
 
 # Read data
 poems_df = CSV.read("dev/fernando_pessoa.csv",DataFrame) 
-# Filter 4 most common pseudonyms
+# Filter poems 4 most common pseudonyms
 autor_list = ["Ricardo Reis","Alberto Caeiro","Álvaro de Campos","Bernardo Soares"]
-poems_filt_df = filter(row -> row.autor in autor_list,poems_df)
+poems_filt_df = filter(x -> x.autor in autor_list && x.tipo == "poesia",poems_df)
 # Generate graphs and get properties
 poems_naive_graph_props = map(x->graph_props(naive_graph(x)),poems_filt_df[!,"texto"])
 poems_naive_props_df = vcat(DataFrame.(poems_naive_graph_props)...)
@@ -19,16 +19,24 @@ fernando_df.betweeness_corr =  fernando_df.mean_between_centr ./ fernando_df.gra
 fernando_df.density_corr =  fernando_df.density ./ fernando_df.graph_size .* 100
 fernando_df.size_lcc_corr =  fernando_df.size_largest_scc ./ fernando_df.graph_size
 ## Filter out outliers by verbosity
-fernando_df = filter(row -> row.graph_size < 400,fernando_df)
+fernando_df = filter(x -> x.graph_size < 400,fernando_df)
 histogram(fernando_df.graph_size)
 
 # Plots
-@df fernando_df violin(:autor, :mean_between_centr)
-@df fernando_df violin(:autor, :betweeness_corr)
-@df fernando_df violin(:autor, :size_lcc_corr)
-@df fernando_df violin(:autor, :size_largest_scc)
-@df fernando_df violin(:autor, :density)
-@df fernando_df violin(:autor, :density_corr)
+@df fernando_df StatsPlots.violin(:autor, :mean_between_centr)
+#@df fernando_df StatsPlots.violin(:autor, :betweeness_corr)
+#@df fernando_df StatsPlots.violin(:autor, :size_lcc_corr)
+@df fernando_df StatsPlots.violin(:autor, :size_largest_scc)
+@df fernando_df StatsPlots.violin(:autor, :density)
+#@df fernando_df StatsPlots.violin(:autor, :density_corr)
+@df fernando_df StatsPlots.marginalscatter(:size_largest_scc,
+:mean_between_centr,group=:autor,alpha=0.2)
+@df fernando_df StatsPlots.marginalscatter(:size_largest_scc_log,
+:mean_between_centr,group=:autor,alpha=0.5)
+
+fernando_df.size_largest_scc_log = 1(fernando_df.size_largest_scc)
+specs = data(fernando_df) * mapping(:size_largest_scc_log, :mean_between_centr, color=:autor => nonnumeric) * (linear() + visual(Scatter))
+draw(specs)
 
 # Descriptive of means
 combine(groupby(fernando_df, :autor), :betweeness_corr .=> Statistics.mean)
