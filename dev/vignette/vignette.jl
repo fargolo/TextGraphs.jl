@@ -3,11 +3,7 @@ using DataFrames, CSV
 using StatsPlots
 using Statistics , HypothesisTests
 
-# Read data
-poems_df = CSV.read("dev/fernando_pessoa.csv",DataFrame) 
-# Filter poems 4 most common pseudonyms
-autor_list = ["Ricardo Reis","Alberto Caeiro","Álvaro de Campos","Bernardo Soares"]
-poems_filt_df = filter(x -> x.autor in autor_list && x.tipo == "poesia",poems_df)
+include("vignette-load-data.jl")
 # Generate graphs and get properties
 poems_naive_graph_props = map(x->graph_props(naive_graph(x)),poems_filt_df[!,"texto"])
 poems_naive_props_df = vcat(DataFrame.(poems_naive_graph_props)...)
