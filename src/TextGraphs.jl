@@ -9,7 +9,7 @@ using DataFrames
 export 
 	naive_graph, phrases_graph,
 	stem_graph, lemma_graph, pos_graph,
-	node_props, graph_props, rand_erdos_ratio_props, rand_erdos_ratio_sampled , get_graph_labels
+	node_props, graph_props, window_props, rand_erdos_ratio_props, rand_erdos_ratio_sampled , get_graph_labels
 
 include("basic_tools.jl")
 include("raw_graphs.jl")

@@ -74,6 +74,30 @@ function graph_props(g::Union{MetaDiGraph,SimpleDiGraph})
     return out_dict
 end
 
+
+"""
+window_props(nwindow, graph_function, raw_text)
+
+Calculate average properties from subsets of text.
+
+User must privde window length (1st argument), graph building function (e.g. naive_graph) and source text.
+"""
+function window_props(nwindow,graph_function,raw_text)
+
+    tokenized_words = WordTokenizers.punctuation_space_tokenize(lowercase(raw_text))
+    text_arrays = [tokenized_words[i:(i+nwindow-1)] for i in 1:(length(tokenized_words) - nwindow+1)]
+    text_array = map(x->join(x," "),text_arrays)
+    graph_array = map(graph_function,text_array)   
+    prop_array = map(graph_props,graph_array)
+    
+    prop_df = vcat(DataFrame.(prop_array)...)
+    averages_df = mapcols(mean,prop_df)
+ 
+    return Dict(names(averages_df) .=> values(averages_df[1,:]))
+    
+end
+
+
 """
 rand_erdos_ratio_props(g::MetaDiGraph)
 
@@ -135,3 +159,4 @@ function rand_erdos_ratio_sampled(g::MetaDiGraph;n_samples=1000,n_boot=1000)
     ratio_dict = Dict(zip(g_keys,ratio_values))
     return ratio_dict
 end
+
