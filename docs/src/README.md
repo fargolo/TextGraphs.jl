@@ -10,8 +10,9 @@
 # Introduction
 `TextGraphs.jl` offers Graphs representations of Text, along with natural language proccessing (NLP) functionalities.  
 
-It is inspired by SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273). Julia uses multiple dispatching, focusing on modular code and typed functions.  
-There's an object-oriented ![Python implementation](https://github.com/facuzeta/speechgraph/) by ![github/facuzeta](https://github.com/facuzeta/).  
+It is inspired by SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273), which transform text into graphs. `TextGraphs.jl` novel features include graph properties (e.g. centrality) and latent space embeddings (adding latent semantic information to graphs). 
+
+Julia uses multiple dispatching, focusing on modular functions and high-performance computing. There's a previous object-oriented [Python implementation](https://github.com/facuzeta/speechgraph/) by [github/facuzeta](https://github.com/facuzeta/).  
 
 
 ![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
@@ -20,7 +21,7 @@ There's an object-oriented ![Python implementation](https://github.com/facuzeta/
 
 # Quick introduction  
 
-Check the ![documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for further information.   
+Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for further information.   
 
 ## Install  
 
@@ -28,6 +29,14 @@ Install with Pkg.
 ```julia
 pkg>add TextGraphs
 ```
+
+You should also have R and package udpipe available.
+
+```
+$sudo apt install r-base
+$sudo Rscript -e 'install.packages("udpipe")'
+```
+
 
 ## Features  
 
@@ -45,7 +54,7 @@ POS, Stems and Lemmas
 - Part of Speech Graph (POS, `pos_graph`) uses syntactical functions. 
 
 Latent space embeddings
-- Latent space embedding (LSE) graphs.  
+- Latent space embedding (LSE, `latent_space_graph`) graphs.  
 
 ### Properties  
 

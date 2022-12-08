@@ -1,4 +1,3 @@
-
 """
 get_embeddings(word,embtable)
 
@@ -20,7 +19,14 @@ function get_embedding(word,embtable)
 end
 
 
+"""
+latent_space_dists(raw_text, embtable, graph_function=naive_graph,complete_embed=true)
 
+Obtain a distance matrix of words in a graph using an Embeddings.jl embedding table. 
+
+Inputs are the raw text, an embedding table, a graph_function (e.g. TextGraphs.naive_graph). 
+complete_embed =false will return NaN for words without space embeddings.  
+"""
 # Get graph embedding from text, Embeddings.jl embedding table and TextGraphs graph function
 # Return matrix without missingembeddings when complete_embed is true    
 function latent_space_dists(raw_text,embtable,graph_function=naive_graph,complete_embed=true)
@@ -55,6 +61,12 @@ function latent_space_dists(raw_text,embtable,graph_function=naive_graph,complet
 
 end
 
+
+"""
+latent_space_graph(raw_text,embtable,graph_function=naive_graph)
+
+Obtain a complete weighted graph using an Embeddings.jl embedding table.  
+"""
 function latent_space_graph(raw_text,embtable,graph_function=naive_graph)
 
     unweighted_graph = graph_function(raw_text)

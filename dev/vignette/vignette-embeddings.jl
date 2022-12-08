@@ -17,7 +17,7 @@ sentences = poems_filt_df[1,"texto"]
 
 # Latent space dists and graph
 word_dists_full_df = latent_space_dists(sentences,ft_embtable,naive_graph,true)
-weighted_graph = latent_space_graph(sentences,ft_embtable,naive_graph,true)
+weighted_graph = latent_space_graph(sentences,ft_embtable,naive_graph)
 
 # Get labels and weights
 g_labels = map(x -> get_prop(weighted_graph,x,:token), collect(1:nv(weighted_graph)))
