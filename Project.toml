@@ -1,7 +1,7 @@
 name = "TextGraphs"
 uuid = "1da7d4ca-ffb9-4e95-b99a-7e8e4561fc9a"
 authors = ["fargolo <felipe.c.argolo@protonmail.com> and contributors"]
-version = "0.1.6"
+version = "0.1.7"
 
 [deps]
 Bootstrap = "e28b5b4c-05e8-5b66-bc03-6f0c0a0a06e0"
