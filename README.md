@@ -6,7 +6,6 @@
 [![Build Status](https://github.com/fargolo/TextGraphs.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/fargolo/TextGraphs.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/fargolo/TextGraphs.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/fargolo/TextGraphs.jl)
 
-
 # Introduction
 `TextGraphs.jl` offers Graphs representations of Text, along with natural language proccessing (NLP) functionalities.  
 
@@ -22,6 +21,10 @@ Julia uses multiple dispatching, focusing on modular functions and high-performa
 # Quick introduction  
 
 Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for further information.   
+
+See the poster presentation at JuliaCon22:  
+
+[![Final video of fixing issues in your code in VS Code](https://img.youtube.com/vi/1Dufbmm9sqc/maxresdefault.jpg)](https://www.youtube.com/watch?v=1Dufbmm9sqc)
 
 ## Install  
 

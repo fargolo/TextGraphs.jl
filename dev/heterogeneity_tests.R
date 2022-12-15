@@ -34,7 +34,7 @@ heterogeneity = function(g, D, mode = "col") {
 
 library(igraph)
 
-mat_dim = 6
+mat_dim = 5
 full_adj = matrix(data=rep(1,mat_dim**2),nrow=mat_dim,ncol=mat_dim)
 adj_mat = matrix(data=rbinom(n = mat_dim**2,size = 1,prob=.5),nrow=mat_dim,ncol=mat_dim)
 rnd_mat = matrix(data=rnorm(n = mat_dim**2,sd = 15),nrow=mat_dim,ncol=mat_dim)
@@ -43,6 +43,7 @@ random_g <- graph_from_adjacency_matrix(full_adj)
 g_attr <- set_edge_attr(random_g,"weight", value = sum(adj_mat))
 
 heterogeneity(g_attr,D=rnd_mat,mode="col")
+det(rnd_mat)
 #Inspecting Rao's objects
 #AB = as_adjacency_matrix(g_attr, attr = "weight", sparse = FALSE)
 #Proportion of total edges ("evenness") for each node: AC = diag(1/rowSums(AB)) %*% AB 
