@@ -24,7 +24,7 @@ Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for furt
 
 See the poster presentation at JuliaCon22:  
 
-[![Final video of fixing issues in your code in VS Code](https://img.youtube.com/vi/1Dufbmm9sqc/maxresdefault.jpg)](https://www.youtube.com/watch?v=1Dufbmm9sqc)
+[![JuliaCon22 presentation](https://img.youtube.com/vi/1Dufbmm9sqc/maxresdefault.jpg)](https://www.youtube.com/watch?v=1Dufbmm9sqc)
 
 ## Install  
 
