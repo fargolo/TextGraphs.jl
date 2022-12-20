@@ -12,57 +12,64 @@ poems_naive_props_df = vcat(DataFrame.(poems_naive_graph_props)...)
 # Bind graph props to data frame
 fernando_df = hcat(poems_filt_df,poems_naive_props_df)
 
+
+fernando_df = filter(x -> x.graph_size < 1000,fernando_df)
+gr(size=(1200,800))
+StatsPlots.histogram(fernando_df.graph_size)
+@df fernando_df groupedhist(:graph_size, group = :autor, bar_position = :stack)
+minimum(fernando_df.graph_size)
+sort(fernando_df.graph_size)[end-15:end]
+
 # Window
-## Remove graphs < 10
+## Remove graphs < 30
 fernando_window_df = filter(x -> x.graph_size > 30,fernando_df)
 
 poems_naive_window_props = map(x->window_props(30,naive_graph,x),fernando_window_df[!,"texto"])
 poems_naive_window_props_df = vcat(DataFrame.(poems_naive_window_props)...)
 fernando_window_df = hcat(fernando_window_df,poems_naive_window_props_df,makeunique=true)
 
+
 # Verbosity correction
-fernando_df.betweeness_corr =  fernando_df.mean_between_centr ./ fernando_df.graph_size .* 100
-fernando_df.density_corr =  fernando_df.density ./ fernando_df.graph_size .* 100
-fernando_df.size_lcc_corr =  fernando_df.size_largest_scc ./ fernando_df.graph_size
-## Filter out outliers by verbosity
-fernando_df_filt = filter(x -> x.graph_size < 400,fernando_df)
-histogram(fernando_df.graph_size)
+fernando_window_df.betweeness_corr =  log.(fernando_window_df.mean_between_centr) ./ fernando_window_df.graph_size.^2
+fernando_window_df.density_corr =  log.(fernando_window_df.density) ./ fernando_window_df.graph_size.^2
+fernando_window_df.size_lcc_corr =  log.(fernando_window_df.size_largest_scc) ./ fernando_window_df.graph_size.^2
 
 
 # Plots
-@df fernando_df StatsPlots.violin(:autor, :mean_between_centr)
-@df fernando_window_df StatsPlots.violin(:autor, :mean_between_centr_1)
+a =  @df fernando_window_df StatsPlots.violin(:autor, :mean_between_centr,title="Betweeness centrality",ylabel="Raw",xaxis=nothing)
+b = @df fernando_window_df StatsPlots.violin(:autor, :mean_between_centr_1,ylabel="Window",xaxis=nothing)
+c = @df fernando_window_df StatsPlots.violin(:autor, :betweeness_corr,ylabel="Transformed",left_margin=8Plots.mm)
+bt_pl = Plots.plot(a,b,c,layout=(3,1))
 
-#@df fernando_df StatsPlots.violin(:autor, :betweeness_corr)
-#@df fernando_df StatsPlots.violin(:autor, :size_lcc_corr)
-@df fernando_df StatsPlots.violin(:autor, :size_largest_scc)
-@df fernando_window_df StatsPlots.violin(:autor, :size_largest_scc_1)
+d = @df fernando_window_df StatsPlots.violin(:autor, :size_largest_scc,title = "LCC",xaxis=nothing)
+e = @df fernando_window_df StatsPlots.violin(:autor, :size_largest_scc_1,xaxis=nothing)
+f = @df fernando_window_df StatsPlots.violin(:autor, :size_lcc_corr)
+lcc_pl = Plots.plot(d,e,f,layout=(3,1))
 
-
-@df fernando_df StatsPlots.violin(:autor, :density)
-@df fernando_window_df StatsPlots.violin(:autor, :density_1)
+g = @df fernando_window_df StatsPlots.violin(:autor, :density,title="Density",xaxis=nothing)
+h = @df fernando_window_df StatsPlots.violin(:autor, :density_1,xaxis=nothing)
+i = @df fernando_window_df StatsPlots.violin(:autor, :density_corr)
+density_pl = Plots.plot(g,h,i,layout=(3,1))
+Plots.plot(bt_pl,lcc_pl,density_pl,layout=(1,3),rotation=90,legend=false)
 
 #@df fernando_df StatsPlots.violin(:autor, :density_corr)
-@df fernando_df StatsPlots.marginalscatter(:size_largest_scc,
+# Raw
+@df fernando_window_df StatsPlots.marginalscatter(:size_largest_scc,
 :mean_between_centr,group=:autor,alpha=0.2)
+#Window
 @df fernando_window_df StatsPlots.marginalscatter(:size_largest_scc_1,
 :mean_between_centr_1,group=:autor,alpha=0.6)
-
-fernando_df.size_largest_scc_log = log.(fernando_df.size_largest_scc)
-fernando_window_df.size_largest_scc_1_log = log.(fernando_window_df.size_largest_scc_1)
-
-@df fernando_df StatsPlots.marginalscatter(:size_largest_scc_log,
-:mean_between_centr,group=:autor,alpha=0.5)
-@df fernando_window_df StatsPlots.marginalscatter(:size_largest_scc_1_log,
-:mean_between_centr_1,group=:autor,alpha=0.5)
+# Transformed
+@df fernando_window_df StatsPlots.marginalscatter(:size_lcc_corr,
+:betweeness_corr,group=:autor,alpha=0.6)
 
 # AlgebraOfGraphics
+## Windowed LCC vs Windowed between. centr.
 axis = (type = Axis3, width = 800, height = 800)
 layer = AlgebraOfGraphics.density() * visual(Wireframe, linewidth=0.05)
 fernando_mapping = data(fernando_window_df) * mapping(:size_largest_scc_1,:mean_between_centr_1)
 plt = fernando_mapping * layer * mapping(color = :autor)
 draw(plt; axis)
-
 
 fernando_mapping = data(fernando_window_df) * mapping(:size_largest_scc_1,:mean_between_centr_1)
 axis = (width = 800, height = 800)
@@ -72,9 +79,9 @@ draw(plt; axis)
 
 
 # Descriptive of means
-combine(groupby(fernando_df, :autor), :betweeness_corr .=> Statistics.mean)
-combine(groupby(fernando_df, :autor), :density_corr .=> Statistics.median)
-combine(groupby(fernando_df, :autor), :size_lcc_corr .=> Statistics.mean)
+combine(groupby(fernando_window_df, :autor), :betweeness_corr .=> Statistics.mean)
+combine(groupby(fernando_window_df, :autor), :density_corr .=> Statistics.median)
+combine(groupby(fernando_window_df, :autor), :size_lcc_corr .=> Statistics.mean)
 
 # Hypothesis testing
 fernando_authors = groupby(fernando_df,:autor)
