@@ -1,5 +1,5 @@
 """
-bypass_eigenvector_centrality(g::Union{MetaDiGraph,SimpleGraph})
+    bypass_eigenvector_centrality(g::Union{MetaDiGraph,SimpleGraph})
 
 Calculate eigenvector centrality for each node in g. 
 
@@ -18,7 +18,7 @@ function bypass_eigenvector_centrality(g::Union{MetaDiGraph,SimpleDiGraph})
 end
 
 """
-node_props(g::Union{MetaDiGraph,SimpleGraph})
+    node_props(g::Union{MetaDiGraph,SimpleGraph})
 
 Calculate betweeness, closeness and eigenvector centralities for each node. 
 
@@ -34,7 +34,7 @@ function node_props(g::Union{MetaDiGraph,SimpleDiGraph})
 end
 
 """
-mean_graph_centrs(g::Union{MetaDiGraph,SimpleGraph})
+    mean_graph_centrs(g::Union{MetaDiGraph,SimpleGraph})
 
 Calculate mean values for centrality (betweeness, closeness and eigenvector methods). 
 
@@ -51,7 +51,7 @@ function mean_graph_centrs(g::Union{MetaDiGraph,SimpleDiGraph})
 end
 
 """
-graph_props(g::MetaDiGraph)
+    graph_props(g::MetaDiGraph)
 
 Calculate several properties for a MetaDiGraph.
 
@@ -76,7 +76,7 @@ end
 
 
 """
-window_props(nwindow, graph_function, raw_text)
+    window_props(nwindow, graph_function, raw_text)
 
 Calculate average properties from subsets of text.
 
@@ -99,7 +99,7 @@ end
 
 
 """
-rand_erdos_ratio_props(g::MetaDiGraph)
+    rand_erdos_ratio_props(g::MetaDiGraph)
 
 Calculate ratios between a given MetaDiGraph and a corresponding random Erdős–Rényi graph.
 
@@ -122,7 +122,7 @@ end
 
 
 """
-erdos_graph_short(g::MetaDiGraph)
+    erdos_graph_short(g::MetaDiGraph)
 
 Generate random Erdős–Rényi graph from MetaDiGraph.
 
@@ -132,7 +132,7 @@ erdos_graph_short(g::MetaDiGraph) = Graphs.erdos_renyi(nv(g),ne(g),is_directed=t
 
 
 """
-rand_erdos_ratio_props(g::MetaDiGraph;n_samples=1000,n_boot=1000)
+    rand_erdos_ratio_props(g::MetaDiGraph;n_samples=1000,n_boot=1000)
 
 Calculate ratios between a given MetaDiGraph and corresponding random Erdős–Rényi graphs via bootstrapping.
 
@@ -141,7 +141,6 @@ mean centralities (betweeness, closeness and eigenvector methods). Currently
 returning error for some samples.
 """
 function rand_erdos_ratio_sampled(g::MetaDiGraph;n_samples=1000,n_boot=1000)
-    
 
     random_graphs = [erdos_graph_short(g) for _ in 1:n_samples]
     rand_graph_properties = map(graph_props,random_graphs)

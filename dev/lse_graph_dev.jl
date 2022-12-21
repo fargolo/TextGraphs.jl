@@ -1,5 +1,5 @@
 """
-    get_embeddings(word,embtable)
+get_embeddings(word,embtable)
 
 Get real vector embedding of a word in an Embeddings.jl embtable. 
 """
@@ -70,3 +70,5 @@ function latent_space_graph(raw_text,embtable,graph_function=naive_graph)
     "weighted_graph" => weighted_graph)
 
 end
+
+
