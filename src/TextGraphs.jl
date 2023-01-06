@@ -5,12 +5,13 @@ using Snowball , WordTokenizers
 using RCall #External call for udpipe package
 using Statistics, Bootstrap
 using DataFrames
+using Distances
 
 export 
 	naive_graph, phrases_graph,
 	stem_graph, lemma_graph, pos_graph,
 	node_props, graph_props, window_props, rand_erdos_ratio_props, rand_erdos_ratio_sampled , get_graph_labels ,
-	latent_space_graph, get_embedding
+	latent_space_graph, latent_space_graph_target, get_embedding
 
 include("basic_tools.jl")
 include("raw_graphs.jl")

@@ -1,11 +1,12 @@
 name = "TextGraphs"
 uuid = "1da7d4ca-ffb9-4e95-b99a-7e8e4561fc9a"
 authors = ["fargolo <felipe.c.argolo@protonmail.com> and contributors"]
-version = "0.1.7"
+version = "0.1.8"
 
 [deps]
 Bootstrap = "e28b5b4c-05e8-5b66-bc03-6f0c0a0a06e0"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"

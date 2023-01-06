@@ -4,7 +4,7 @@
 Calculate eigenvector centrality for each node in g. 
 
 This function returns an Array with either the eigenvector centrality values or missing.
-It is needed because LinAlg.jl.eigs seems to bear erratic behavior, somethings returning vector bound error.  
+It is needed because LinAlg.jl.eigs seems to bear erratic behavior, sometimes returning vector bound error.  
 """
 function bypass_eigenvector_centrality(g::Union{MetaDiGraph,SimpleDiGraph})
     try 

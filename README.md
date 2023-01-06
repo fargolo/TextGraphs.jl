@@ -58,6 +58,7 @@ POS, Stems and Lemmas
 
 Latent space embeddings
 - Latent space embedding (LSE, `latent_space_graph`) graphs.  
+- Latent space embeddings to target (`latent_space_graph`)
 
 ### Properties  
 
