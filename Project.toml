@@ -17,6 +17,7 @@ WordTokenizers = "796a5d58-b03d-544a-977e-18100b691f6e"
 [compat]
 Bootstrap = "2"
 DataFrames = "1"
+Distances = "0.10"
 Graphs = "1.4"
 MetaGraphs = "0.6, 0.7"
 RCall = "0.13"
