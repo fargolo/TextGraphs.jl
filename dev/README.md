@@ -1,5 +1,9 @@
 ### To do:  
 
+When sampling random graphs, take the z-score instead of raw ratio respective to the average
+
+---
+
 Recurrence based on string distances
 
 ---

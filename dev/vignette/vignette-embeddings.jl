@@ -7,8 +7,9 @@ using LinearAlgebra
 using Plots 
 using DynamicalSystems
 
+
 # Functions for LSE
-include("embeddings_utils.jl")
+#include("embeddings_utils.jl")
 # Loads data to poems_filt_df
 include("vignette-load-data.jl")
 
@@ -16,14 +17,13 @@ include("vignette-load-data.jl")
 # Load embedding table
 const ft_embtable = load_embeddings(FastText_Text{:en}; max_vocab_size=30000) 
 
-sentences = poems_filt_df[90,"texto"]
+sentences = poems_filt_df[40,"texto"]
 
 colors_txt = "Colors are the central theme of this text .
 Blue , green and yellow are the colors of Brazil .
 Red and white are from Japan and Canada .
 Does violet exist in any flags ?
 Jamaica is yellow, black and green . Orange is another color ."
-colors_txt = "red green yellow blue"
 
 random_txt = "This text looks like a Haiku .
 Frog can be pink, rocket is bigger than hat .
@@ -34,11 +34,15 @@ but socialism remains seated"
 # Latent space dists and graph
 weighted_graph_rnd = latent_space_graph(random_txt,ft_embtable,naive_graph)
 weighted_graph = latent_space_graph(colors_txt,ft_embtable,naive_graph)
+weighted_graph_sent = latent_space_graph(sentences,ft_embtable,naive_graph)
 
 txt_distances = Matrix{Float64}(weighted_graph["skipmiss_distances"][:,2:end])
 txt_distances_rnd = Matrix{Float64}(weighted_graph_rnd["skipmiss_distances"][:,2:end])
+txt_distances_sent = Matrix{Float64}(weighted_graph_sent["skipmiss_distances"][:,2:end])
+
 plt_labs = weighted_graph["skipmiss_distances"][:,1]
 plt_labs_rnd = weighted_graph_rnd["skipmiss_distances"][:,1]
+plt_labs_sent = weighted_graph_sent["skipmiss_distances"][:,1]
 
 gr(size=(1200,500))
 Plots.plot(Plots.heatmap(txt_distances,xticks=(1:length(plt_labs),plt_labs),
@@ -47,10 +51,13 @@ Plots.plot(Plots.heatmap(txt_distances,xticks=(1:length(plt_labs),plt_labs),
                                         yticks=(1:length(plt_labs_rnd),plt_labs_rnd)),
 layout=(1,2),xrotation=90)
 
-# Generalized variance: det(txt_colors) < det(randn_text)
-log(abs(det(txt_distances)))/ foldr(*,size(txt_distances))
-log(abs(det(txt_distances_rnd)))/ foldr(*,size(txt_distances_rnd))
+#Generalized variance: det(txt_colors) < det(randn_text)
+det(txt_distances) , det(txt_distances_rnd)
+det(txt_distances)/ foldr(*,size(txt_distances)) , det(txt_distances_rnd)/ foldr(*,size(txt_distances_rnd))
+log(abs(det(txt_distances)))/ foldr(*,size(txt_distances)),
+    log(abs(det(txt_distances_rnd)))/ foldr(*,size(txt_distances_rnd))
 
+det(txt_distances_sent)    
 
 #RQA
 rqa(txt_distances)

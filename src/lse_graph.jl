@@ -46,8 +46,8 @@ function latent_space_graph(raw_text,embtable,graph_function=naive_graph)
 
     vector_reps = permutedims(hcat(latent_space_repsZ...))
     vector_reps_skipmiss = permutedims(hcat(latent_space_reps_skipmiss...))        
-    word_dists = pairwise(cosine_dist, vector_reps, dims=1)
-    word_dists_skipmiss = pairwise(cosine_dist, vector_reps_skipmiss, dims=1)
+    word_dists = Distances.pairwise(cosine_dist, vector_reps, dims=1)
+    word_dists_skipmiss = Distances.pairwise(cosine_dist, vector_reps_skipmiss, dims=1)
    
     word_dists_df = DataFrame(hcat(labels,word_dists),:auto)
     word_dists_skipmiss_df = DataFrame(hcat(labels_skipmiss,word_dists_skipmiss),:auto)

@@ -3,6 +3,7 @@ using DataFrames, CSV
 using StatsPlots
 using Statistics , HypothesisTests
 using AlgebraOfGraphics , CairoMakie
+using Embeddings
 
 include("vignette-load-data.jl")
 # Generate graphs and get properties
@@ -88,6 +89,29 @@ fernando_authors = groupby(fernando_df,:autor)
 ricardo , caieiro , bernardo, alvaro =  fernando_authors[1].betweeness_corr, 
     fernando_authors[2].betweeness_corr, fernando_authors[3].betweeness_corr,
     fernando_authors[4].betweeness_corr
+
+KruskalWallisTest(ricardo, caieiro, bernardo, alvaro)
+OneWayANOVATest(ricardo, caieiro, bernardo, alvaro)
+
+
+# Semantics
+const pt_embtable = load_embeddings(FastText_Text{:pt}; max_vocab_size=30000) 
+
+weighted_graphs = map(x->latent_space_graph(x,pt_embtable,naive_graph),fernando_window_df[!,"texto"])
+txt_distances = map(x -> Matrix{Float64}(x["skipmiss_distances"][:,2:end]),weighted_graphs)
+dets = map(det,txt_distances)
+norm_dets = map(x -> log(abs(det(x)))/ foldr(*,size(x)),txt_distances)
+fernando_window_df = hcat(fernando_window_df,dets,norm_dets,makeunique=true)
+rename!(fernando_window_df,[:x1 , :x1_1].=> [:det, :norm_dets])
+
+gr(size=(600,400))
+@df fernando_window_df[completecases(fernando_window_df), :] StatsPlots.violin(:autor, :norm_dets, title="Normalized Gcs",legend=false)
+
+## 
+fernando_authors = groupby(fernando_window_df,:autor)
+ricardo , caieiro , bernardo, alvaro =  fernando_authors[1].norm_dets, 
+    fernando_authors[2].norm_dets, fernando_authors[3].norm_dets,
+    fernando_authors[4].norm_dets
 
 KruskalWallisTest(ricardo, caieiro, bernardo, alvaro)
 OneWayANOVATest(ricardo, caieiro, bernardo, alvaro)
