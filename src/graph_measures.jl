@@ -107,7 +107,7 @@ User must privde window length (1st argument), graph building function (e.g. nai
 function window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
 
     tokenized_words = WordTokenizers.punctuation_space_tokenize(lowercase(raw_text))
-    udp_lemma_df = udp_import_annotations(tokenized_words;udpipe_lang=text_language)
+    udp_lemma_df = udp_import_annotations(join(tokenized_words," ");udpipe_lang=text_language)
     tokenized_lemmas = udp_lemma_df.lemma
     text_arrays = [tokenized_lemmas[i:(i+nwindow-1)] for i in 1:txt_stepsize:(length(tokenized_words) - nwindow+1)]
     text_array = map(x->join(x," "),text_arrays)
