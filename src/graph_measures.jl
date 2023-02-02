@@ -112,7 +112,7 @@ function window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="eng
     text_arrays = [tokenized_lemmas[i:(i+nwindow-1)] for i in 1:txt_stepsize:(length(tokenized_words) - nwindow+1)]
     text_array = map(x->join(x," "),text_arrays)
 
-    graph_array = map(build_labelled_graph,text_array)   
+    graph_array = map(naive_graph,text_array)   
     prop_array = map(graph_props,graph_array)
     
     prop_df = vcat(DataFrame.(prop_array)...)
