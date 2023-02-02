@@ -97,6 +97,31 @@ function window_props(nwindow,graph_function,raw_text)
     
 end
 
+"""
+window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
+
+Calculate average properties from subsets of text.
+
+User must privde window length (1st argument), graph building function (e.g. naive_graph) and source text.
+"""
+function window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
+
+    tokenized_words = WordTokenizers.punctuation_space_tokenize(lowercase(raw_text))
+    udp_lemma_df = udp_import_annotations(tokenized_words;udpipe_lang=text_language)
+    tokenized_lemmas = udp_lemma_df.lemma
+    text_arrays = [tokenized_lemmas[i:(i+nwindow-1)] for i in 1:txt_stepsize:(length(tokenized_words) - nwindow+1)]
+    text_array = map(x->join(x," "),text_arrays)
+
+    graph_array = map(build_labelled_graph,text_array)   
+    prop_array = map(graph_props,graph_array)
+    
+    prop_df = vcat(DataFrame.(prop_array)...)
+    averages_df = mapcols(mean,prop_df)
+ 
+    return Dict(names(averages_df) .=> values(averages_df[1,:]))
+    
+end
+
 
 """
     rand_erdos_ratio_props(g::MetaDiGraph)
