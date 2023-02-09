@@ -76,16 +76,16 @@ end
 
 
 """
-    window_props(nwindow, graph_function, raw_text)
+    window_props(raw_text,nwindow=5,txt_stepsize=1,graph_function=naive_graph)
 
-Calculate average properties from subsets of text.
+Calculate average properties from windowed subsets of text.
 
-User must privde window length (1st argument), graph building function (e.g. naive_graph) and source text.
+User must provide source text, window length, step size, graph building function (e.g. naive_graph).
 """
-function window_props(nwindow,graph_function,raw_text)
+function window_props(raw_text,nwindow=5,txt_stepsize=1,graph_function=naive_graph)
 
     tokenized_words = WordTokenizers.punctuation_space_tokenize(lowercase(raw_text))
-    text_arrays = [tokenized_words[i:(i+nwindow-1)] for i in 1:(length(tokenized_words) - nwindow+1)]
+    text_arrays = [tokenized_words[i:(i+nwindow-1)] for i in 1:txt_stepsize:(length(tokenized_words) - nwindow+1)]
     text_array = map(x->join(x," "),text_arrays)
     graph_array = map(graph_function,text_array)   
     prop_array = map(graph_props,graph_array)
@@ -98,11 +98,11 @@ function window_props(nwindow,graph_function,raw_text)
 end
 
 """
-window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
+    window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
 
-Calculate average properties from subsets of text.
+Calculate average properties from windowed subsets of lemmatized text.
 
-User must privde window length (1st argument), graph building function (e.g. naive_graph) and source text.
+User must provide source text, window length, step size, graph building function (e.g. naive_graph).
 """
 function window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
 
@@ -124,14 +124,14 @@ end
 
 
 """
-    rand_erdos_ratio_props(g::MetaDiGraph)
+    rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=2600)
 
 Calculate ratios between a given MetaDiGraph and a corresponding random Erdős–Rényi graph.
 
 This function returns a Dict with numeric values for density and 
 mean centralities (betweeness, closeness and eigenvector methods) 
 """
-function rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=123)
+function rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=2600)
     
     random_erdos_g = Graphs.erdos_renyi(nv(g),ne(g),seed=rnd_seed,is_directed=true)
     #random_tourn_g = Graphs.random_tournament_digraph(nv(g))

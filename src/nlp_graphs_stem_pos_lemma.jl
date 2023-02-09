@@ -58,11 +58,12 @@ end
 
 
 """
-    lemma_graph(my_text)
+    lemma_graph(my_text::AbstractString;text_language="english")
 
 Build lemmatized graph from text (`AbstractString`) using R package udpipe. 
 
-Currently, supports portuguese and english corpora. 
+Currently, supports portuguese and english corpora. Defaults language to "english". 
+Any other value will set it to "portuguese".  
 """
 function lemma_graph(raw_text::AbstractString;text_language="english")
     

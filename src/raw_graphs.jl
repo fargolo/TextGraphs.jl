@@ -9,7 +9,7 @@ function naive_graph(raw_text::AbstractString)
 end
 
 """
-    phrases_graph(my_text)
+    phrases_graph(raw_text::AbstractString)
 
 Build graph from text (`AbstractString`) using sentences as unique tokens. 
 """
