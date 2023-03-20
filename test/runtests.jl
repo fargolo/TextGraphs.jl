@@ -25,7 +25,7 @@ using Graphs , MetaGraphs
     #@test isequal(map(x->round(x;digits=5),
     #        collect(values(stem_props))), [0.27158, 7.0, 2.0, 0.16071, 0, 0.33929,0.33713])
     
-    stem_erdos_props = TextGraphs.rand_erdos_ratio_props(stem_g;rnd_seed=123)
+    stem_erdos_props = TextGraphs.rand_erdos_props(stem_g)
     #@test isequal(map(x->round(x;digits=5),
     #    collect(values(stem_erdos_props))),[0.73644,0.42857,2.5,1.0,NaN,0.07018,0.62623])
     
