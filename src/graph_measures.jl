@@ -76,19 +76,30 @@ end
 
 
 """
-    window_props(raw_text,nwindow=5,txt_stepsize=1,graph_function=naive_graph)
+    window_props(raw_text,nwindow=5,txt_stepsize=1,graph_function=naive_graph;prop_type="raw",rnd_eval_method="ratio")
 
 Calculate average properties from windowed subsets of text.
 
-User must provide source text, window length, step size, graph building function (e.g. naive_graph).
-"""
-function window_props(raw_text,nwindow=5,txt_stepsize=1,graph_function=naive_graph)
+User must provide source text, window length, step size, 
+graph building function (e.g. naive_graph). Set `prop_type` to 'random'
+to obtain properties from Erdos-Renye graphs. If `prop_type` is random,
+set `rnd_eval_method` to either 'ratio' (default) or 'z_score'. 
+""" 
+function window_props(raw_text::AbstractString,nwindow::Integer=5,txt_stepsize::Integer=1,graph_function::Function=naive_graph;
+    prop_type::AbstractString="raw",rnd_eval_method::AbstractString="ratio")
 
     tokenized_words = WordTokenizers.punctuation_space_tokenize(lowercase(raw_text))
     text_arrays = [tokenized_words[i:(i+nwindow-1)] for i in 1:txt_stepsize:(length(tokenized_words) - nwindow+1)]
     text_array = map(x->join(x," "),text_arrays)
     graph_array = map(graph_function,text_array)   
-    prop_array = map(graph_props,graph_array)
+
+    if prop_type == "raw"
+        prop_array = map(graph_props,graph_array)
+    elseif prop_type == "random"
+        prop_array = map(x -> rand_erdos_props(x;eval_method=rnd_eval_method,n_samples=1000),graph_array)
+    else
+        throw(DomainError(prop_type,"props must be either raw or random"))
+    end
     
     prop_df = vcat(DataFrame.(prop_array)...)
     averages_df = mapcols(mean,prop_df)
@@ -100,11 +111,13 @@ end
 """
     window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
 
-Calculate average properties from windowed subsets of lemmatized text.
+Calculate average properties from windowed subsets of lemmatized text. 
 
-User must provide source text, window length, step size, graph building function (e.g. naive_graph).
+User must provide source text, window length, step size and text language.
+This function is faster than using `window_props` with `graph_function=lemma_graph`.
 """
-function window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="english")
+function window_props_lemma(raw_text::AbstractString,nwindow::Integer=5,
+    txt_stepsize::Integer=1,text_language::AbstractString="english")
 
     tokenized_words = WordTokenizers.punctuation_space_tokenize(lowercase(raw_text))
     udp_lemma_df = udp_import_annotations(join(tokenized_words," ");udpipe_lang=text_language)
@@ -122,30 +135,6 @@ function window_props_lemma(raw_text,nwindow=5,txt_stepsize=1,text_language="eng
     
 end
 
-
-"""
-    rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=2600)
-
-Calculate ratios between a given MetaDiGraph and a corresponding random Erdős–Rényi graph.
-
-This function returns a Dict with numeric values for density and 
-mean centralities (betweeness, closeness and eigenvector methods) 
-"""
-function rand_erdos_ratio_props(g::MetaDiGraph;rnd_seed=2600)
-    
-    random_erdos_g = Graphs.erdos_renyi(nv(g),ne(g),seed=rnd_seed,is_directed=true)
-    #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
-    rand_props = graph_props(random_erdos_g)
-    g_props = graph_props(g) 
-    
-    g_keys = keys(g_props)
-    ratio_values = values(rand_props) ./ values(g_props)
-
-    ratio_dict = Dict(zip(g_keys,ratio_values))
-    return ratio_dict
-end
-
-
 """
     erdos_graph_short(g::MetaDiGraph)
 
@@ -155,32 +144,37 @@ Short version of erdos_renyi function that takes a MetaDiGraph instead of numebr
 """
 erdos_graph_short(g::MetaDiGraph) = Graphs.erdos_renyi(nv(g),ne(g),is_directed=true)
 
-
 """
-    rand_erdos_ratio_props(g::MetaDiGraph;n_samples=1000,n_boot=1000)
+    rand_erdos_props(g::MetaDiGraph;eval_method="z_score",n_samples=1000)
 
-Calculate ratios between a given MetaDiGraph and corresponding random Erdős–Rényi graphs via bootstrapping.
+Calculate ratios between a given MetaDiGraph and corresponding random Erdős–Rényi graphs.
 
-This function returns a Dict with numeric values for density, connected components and 
+This function returns a Dict with numeric values for density, connected components and 9
 mean centralities (betweeness, closeness and eigenvector methods). Currently
-returning error for some samples.
+returning error for some samples. `eval_method` must can be either 'z_score' or 'ratio'.  
 """
-function rand_erdos_ratio_sampled(g::MetaDiGraph;n_samples=1000,n_boot=1000)
+function rand_erdos_props(g::MetaDiGraph; eval_method::AbstractString="ratio", n_samples::Integer=1000)
 
     random_graphs = [erdos_graph_short(g) for _ in 1:n_samples]
     rand_graph_properties = map(graph_props,random_graphs)
     rand_g_props_df = vcat(DataFrame.(rand_graph_properties)...)
     
-    rand_bias = mapcols(x -> bootstrap(mean, x, BasicSampling(n_boot)) |> x -> original(x,1), rand_g_props_df)
+    rand_mean = mapcols(mean,rand_g_props_df)
+    rand_std = mapcols(std, rand_g_props_df)
 
     #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
-    rand_props = values(rand_bias[1,:])
+    rand_props = values(rand_mean[1,:])
     g_props = graph_props(g) 
     
     g_keys = keys(g_props)
-    ratio_values = rand_props ./ values(g_props)
+    if eval_method=="z_score"
+        output_values = (values(g_props) .- rand_props) ./ values(std_err[1,:])
+    elseif eval_method=="ratio"
+        output_values = values(g_props) ./ rand_props 
+    else   
+        throw(DomainError(eval_method,"eval_method must be either 'z_score' or 'ratio'"))
+    end
 
-    ratio_dict = Dict(zip(g_keys,ratio_values))
+    ratio_dict = Dict(zip(g_keys,output_values))
     return ratio_dict
 end
-

@@ -25,6 +25,14 @@ function udp_import_annotations(raw_text::AbstractString;udpipe_lang::AbstractSt
     en_path = "/../corpora/udpipe/english-ud-2.1-20180111.udpipe"
     pt_path = "/../corpora/udpipe/portuguese-ud-2.1-20180111.udpipe"
     udpipe_path = ifelse(udpipe_lang=="english",en_path,pt_path)
+
+    if udpipe_lang=="english"
+        udpipe_path=en_path
+    elseif udpipe_lang=="portuguese"
+        udpipe_path=pt_path
+    else
+        throw(DomainError(udpipe_lang,"currently supported udpipe_languages are 'english' and 'portuguese'"))
+    end
     cur_path = @__DIR__
     @rput raw_text cur_path udpipe_path
     
@@ -65,7 +73,7 @@ Build lemmatized graph from text (`AbstractString`) using R package udpipe.
 Currently, supports portuguese and english corpora. Defaults language to "english". 
 Any other value will set it to "portuguese".  
 """
-function lemma_graph(raw_text::AbstractString;text_language="english")
+function lemma_graph(raw_text::AbstractString;text_language::AbstractString="english")
     
     udp_pos_df = udp_import_annotations(raw_text;udpipe_lang=text_language)
 
