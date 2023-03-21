@@ -10,12 +10,11 @@
 
 
 # Introduction
-`TextGraphs.jl` offers Graphs representations of Text, along with natural language proccessing (NLP) functionalities.  
+`TextGraphs.jl` offers Graphs representations of Text, along with natural language proccessing (NLP) functionalities. Check the [white paper](https://psyarxiv.com/nfze4/) including vignettes with examples.     
 
-It is inspired by SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/123456789/23273), which transform text into graphs. `TextGraphs.jl` novel features include graph properties (e.g. centrality) and latent space embeddings (adding latent semantic information to graphs). 
+This package is inspired by [SpeechGraphs](https://repositorio.ufrn.br/jspui/handle/123456789/23273). `TextGraphs.jl` new features include pre-processing (e.g.lemmas), properties (e.g. centrality) and latent space embeddings (adding latent semantic information to graphs). 
 
-Julia uses multiple dispatching, focusing on modular functions and high-performance computing. There's a previous object-oriented [Python implementation](https://github.com/facuzeta/speechgraph/) by [github/facuzeta](https://github.com/facuzeta/).  
-
+Julia uses multiple dispatching, focusing on modular functions and high-performance computing. 
 
 ![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
 
@@ -23,7 +22,7 @@ Julia uses multiple dispatching, focusing on modular functions and high-performa
 
 # Quick introduction  
 
-Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) for further information.   
+Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) and the [white paper](https://psyarxiv.com/nfze4/) for further information.   
 
 See the poster presentation at JuliaCon22:  
 
@@ -71,7 +70,7 @@ Direct measures
 `graph_props` returns values of density, # of self loops, # of SCCs, size of largest SCC, and mean centrality (betweeness, closeness and eigenvector methods).  
 
 Erdős–Rényi ratios  
-`rand_erdos_ratio_props` returns values of density and mean centrality ratios between the graph and a random Erdõs-Rényi graph with identical number of vertices and edges.  
+`rand_erdos_props` returns values as compared to random Erdõs-Rényi graph with identical number of vertices and edges through z-score or ratio to average.  
 
 
 ## Usage  
@@ -109,3 +108,8 @@ graphplot(stem_g,nlabels=stem_g_labels)
 spec3_layout = Spectral(dim=3)
 graphplot(naive_g,node_size=30,nlabels=g_labels,layout=spec3_layout)
 ```
+
+
+### Available options
+
+Besides [SpeechGraphs](https://repositorio.ufrn.br/jspui/handle/123456789/23273), there's a previous object-oriented [Python implementation](https://github.com/facuzeta/speechgraph/) by [github/facuzeta](https://github.com/facuzeta/).  

@@ -1,7 +1,7 @@
 library(igraph)
 library(extraDistr)
 library(purrr)
-
+## http://users.dimi.uniud.it/~massimo.franceschet/teaching/datascience/network/heterogeneity.html
 shannon = function(p) {
   x = p * log2(p)
   x = replace(x, is.nan(x), 0)

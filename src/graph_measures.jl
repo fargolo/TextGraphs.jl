@@ -159,7 +159,7 @@ function rand_erdos_props(g::MetaDiGraph; eval_method::AbstractString="ratio", n
     rand_graph_properties = map(graph_props,random_graphs)
     rand_g_props_df = vcat(DataFrame.(rand_graph_properties)...)
     
-    rand_mean = mapcols(mean,rand_g_props_df)
+    rand_mean = mapcols(mean, rand_g_props_df)
     rand_std = mapcols(std, rand_g_props_df)
 
     #random_tourn_g = Graphs.random_tournament_digraph(nv(g))
