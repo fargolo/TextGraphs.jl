@@ -98,7 +98,7 @@ function window_props(raw_text::AbstractString,nwindow::Integer=5,txt_stepsize::
     elseif prop_type == "random"
         prop_array = map(x -> rand_erdos_props(x;eval_method=rnd_eval_method,n_samples=1000),graph_array)
     else
-        throw(DomainError(prop_type,"props must be either raw or random"))
+        throw(DomainError(prop_type,"prop_type must be either 'raw' or 'random'"))
     end
     
     prop_df = vcat(DataFrame.(prop_array)...)
@@ -168,7 +168,7 @@ function rand_erdos_props(g::MetaDiGraph; eval_method::AbstractString="ratio", n
     
     g_keys = keys(g_props)
     if eval_method=="z_score"
-        output_values = (values(g_props) .- rand_props) ./ values(std_err[1,:])
+        output_values = (values(g_props) .- rand_props) ./ values(rand_std[1,:])
     elseif eval_method=="ratio"
         output_values = values(g_props) ./ rand_props 
     else   
