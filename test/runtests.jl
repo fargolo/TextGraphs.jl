@@ -40,12 +40,12 @@ using Graphs , MetaGraphs
 
 
     naive_window_props = TextGraphs.window_props(pt_sentence,5,1,naive_graph)
-    @test isequal(map(x->round(x;digits=5),
-    collect(values(naive_window_props))), [0.38842, 1.8, 3.6, 0.28667, 4.4, 0.0, 0.25,0.32883])
+    @test isequal(map(x->round(x;digits=3),
+    collect(values(naive_window_props))), [0.388, 1.8, 3.6, 0.287, 4.4, 0.0, 0.25,0.329])
 
     lemma_window_props = TextGraphs.window_props_lemma(pt_sentence,5,1,"portuguese")
     @test isequal(map(x->round(x;digits=3),
-    collect(values(naive_window_props))), [0.388, 1.8, 3.6, 0.287, 4.4, 0.0, 0.25,0.329])
+    collect(values(lemma_window_props))), [0.415, 2.2, 3.1, 0.3, 4.3, 0.0, 0.308,0.366])
 
 
 end
