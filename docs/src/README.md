@@ -15,8 +15,6 @@ It is inspired by SpeechGraphs(https://repositorio.ufrn.br/jspui/handle/12345678
 Julia uses multiple dispatching, focusing on modular functions and high-performance computing. There's a previous object-oriented [Python implementation](https://github.com/facuzeta/speechgraph/) by [github/facuzeta](https://github.com/facuzeta/).  
 
 
-![No meio do caminho tinha uma pedra. Tinha uma pedra no meio do caminho.](dev/drummond.png)
-
 ---  
 
 # Quick introduction  
