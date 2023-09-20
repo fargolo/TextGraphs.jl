@@ -103,9 +103,12 @@ spec3_layout = Spectral(dim=3)
 graphplot(naive_g,node_size=30,nlabels=g_labels,layout=spec3_layout)
 ```
 
-
+<!---
+Commenting out to debug doc CI on github
 ```@autodocs
 Modules = [TextGraphs]
 ```
+-->
+
 
 
