@@ -26,7 +26,10 @@ Check the [documentation](https://fargolo.github.io/TextGraphs.jl/dev/) and the 
 
 See the poster presentation at JuliaCon22:  
 
-[![JuliaCon22 presentation](https://img.youtube.com/vi/1Dufbmm9sqc/maxresdefault.jpg)](https://www.youtube.com/watch?v=1Dufbmm9sqc)
+[![JuliaCon22 presentation](https://img.youtube.com/vi/1Dufbmm9sqc/maxresdefault.jpg)](https://www.youtube.com/watch?v=1Dufbmm9sqc)  
+
+
+[![JuliaCon23 presentation](https://img.youtube.com/vi/4jJD4F40WBA/maxresdefault.jpg)](https://www.youtube.com/watch?v=4jJD4F40WBA)
 
 ## Install  
 
